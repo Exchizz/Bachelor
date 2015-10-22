@@ -8,7 +8,7 @@ class CanInterface:
 
         def send(self,extended_id, payload):
                 msg = can.Message(arbitration_id=extended_id, data=payload, extended_id=True)
-                print msg
+                print "Tx MSG: ", msg
                 if self.bus.send(msg) < 0:
                         exit("Unable to send, stopping")
                 else:
@@ -16,4 +16,4 @@ class CanInterface:
 
 
         def recv(self):
-                return self.bus.recv(timeout = 1)
+                return self.bus.recv(timeout = 5)
