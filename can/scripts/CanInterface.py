@@ -1,7 +1,8 @@
 #!/usr/bin/python
 import can
-
 __author__ = 'Mathias Neerup'
+
+
 class CanInterface:
         def __init__(self, iface, type):
                 self.bus = can.interface.Bus(iface, bustype=type)
@@ -14,6 +15,6 @@ class CanInterface:
                 else:
                         print("Message sent")
 
-
         def recv(self):
                 return self.bus.recv(timeout = 5)
+
