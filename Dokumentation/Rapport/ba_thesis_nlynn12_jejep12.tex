@@ -1,0 +1,300 @@
+\documentclass[11pt,twoside,a4paper]{report}
+
+
+% ------- Enable UTF8 characters ------- %
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+
+% --------------- Math ----------------- %
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mdframed}
+\newcommand{\dif}{\mbox{$\mathrm{d}$}}
+\newcommand{\ohm}{\mbox{$\Omega$}}
+
+% ------------- Figures & Tables -------------- %
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{subcaption}
+\captionsetup[figure]{singlelinecheck=false, margin=0pt,labelsep=space,labelfont=bf,textfont=it}
+\captionsetup[table]{singlelinecheck=false, margin=0pt,labelsep=space,labelfont=bf,textfont=it}
+\usepackage{epstopdf} %MATLAB eps (vector) figures
+
+\usepackage{array}
+\newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+
+% --------------- Color ---------------- %
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+% --------------- Code ----------------- %
+\usepackage{verbatim}
+\usepackage{listings}
+\lstset{
+	frame				= lines,
+  	language				= C++,
+  	aboveskip			= 3mm,
+  	belowskip			= 3mm,
+  	captionpos			= t,
+  	showstringspaces		= false,
+  	columns				= flexible,
+  	basicstyle			= {\small\ttfamily},
+  	numbers				= left,
+  	numberstyle			= \tiny\color{gray},
+  	keywordstyle			= \color{blue},
+  	commentstyle			= \color{dkgreen},
+  	stringstyle			= \color{dkgreen},
+  	breaklines			= true,
+  	breakatwhitespace	= true,
+  	tabsize				= 3,
+  	xleftmargin			= 17pt,
+  	framexleftmargin		= 17pt,
+  	framexrightmargin	= 17pt,
+  	framexbottommargin	= 5pt,
+	framextopmargin		= 5pt,
+	moredelim			= **[is][\color{mauve}]{@}{@}
+}
+\lstset{
+	literate				= {~} {\raise.17ex\hbox{$\scriptstyle\sim$}}{1}
+}
+
+
+\lstdefinelanguage{pseudo}{
+  sensitive=false,
+  morecomment=[l]//
+}
+\lstdefinestyle{pseudo}{
+  language     = pseudo,
+  commentstyle = \color{dkgreen}
+}
+
+
+
+\DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth+17pt\relax}{0.4pt}\par\vskip1pt#1#2#3}
+\captionsetup[lstlisting]{format=listing,singlelinecheck=false, margin=0pt,labelsep=space,labelfont=bf}
+
+\renewcommand\lstlistingname{Listing}
+
+
+
+% ----------- Page Layout ------------- %
+\usepackage{fullpage}
+\headsep = 24pt % spacing between header and text
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{paralist}
+\fancyhf{}
+\fancyhead[LE]{\slshape \rightmark} % section
+\fancyhead[RE]{\thepage}
+\fancyhead[RO]{\slshape \leftmark} % chapter
+\fancyhead[LO]{\thepage}
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+
+
+% font
+\usepackage[T1]{fontenc}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\Large\filleft}
+{\sc\chaptertitlename\ \Huge{\thechapter}\\%
+\vspace{1.5cm}
+\titlerule[1pt]}
+{-20pt}
+{\Large}[\vspace{2ex}{\titlerule[1pt]}]
+
+\titleformat{name=\chapter,numberless}[display]
+{\normalfont\Large\filleft}
+{}
+{0pt}
+{\titlerule[1pt]
+\vspace{2ex}%
+\Large}[\vspace{2ex}{\titlerule[1pt]}]
+
+\titlespacing*{\chapter} {0pt}{0pt}{40pt}   %% adjust these numbers
+\titlespacing*{name=\chapter,numberless} {0pt}{0pt}{40pt}   %% adjust these numbers
+
+
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+\usepackage{blindtext} %Lorem Ipsum replica
+
+% -------- Table of Contents --------- %
+\usepackage[titles]{tocloft}
+\usepackage[toc,page]{appendix}
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforechapskip}{7pt}
+\setlength{\cftbeforetoctitleskip}{-20pt}
+
+
+
+% -------- TikZ --------- %
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{tikz-timing}
+%\input{timing}
+\usepackage{pgf}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{patterns}
+\usetikzlibrary{shapes.geometric}
+
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+\usetikzlibrary{backgrounds}
+
+\tikzset{desc/.style={outer sep=0pt,inner sep=0pt,text centered,font=\scriptsize,fill=black!10}}
+
+\newcommand{\texta}{Helpful\\ \tiny (to achieve the objective)}
+\newcommand{\textb}{Harmful\\ \tiny (to achieve the objective)}
+\newcommand{\textc}{\rotatebox[origin=r]{90}{\shortstack{Internal origin\\ \tiny (product\slash company attributes)}}}
+\newcommand{\textd}{\rotatebox[origin=r]{90}{\shortstack{External origin\\ \tiny (environment\slash market attributes)}}}
+
+
+% -------- To Do notes --------- %
+\usepackage{todonotes}
+
+
+%---------- URL ----------%
+\usepackage{hyperref} % clickable references
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue,
+    pdfborder = { 0 0 0 }
+}
+\def\UrlFont{}
+
+%\usepackage[numbers, square, comma, sort&compress]{natbib}
+
+\usepackage[
+  backend=bibtex,
+  %style=alpabethical,
+  citestyle=verbose%-tcomp
+  ]{biblatex}
+\bibliography{bibliography} 
+
+\usepackage[hang,flushmargin]{footmisc}
+
+
+\begin{document}
+
+% --------- Title Page, Front Page --------- %
+\setcounter{page}{1}
+\pagenumbering{Alph}
+
+\input{frontpage}
+
+\input{titlepage}
+
+
+
+% --------- Front Matter --------- %
+\setcounter{page}{1} % Start counter at 1
+\pagenumbering{roman}
+
+\input{preface}
+
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\input{abstract}
+
+\chapter*{Reading Guide}
+\addcontentsline{toc}{chapter}{Reading Guide}
+\input{reading_guide}
+
+\chapter*{Terms and Notation}
+\addcontentsline{toc}{chapter}{Terms and Notation}
+\input{terms_notations}
+
+\newpage
+\renewcommand\contentsname{Table of Contents}
+\tableofcontents
+%\addtocontents{toc}{\vskip-70pt}
+\newpage
+
+
+
+
+% --------- Main Matter --------- %
+\setcounter{page}{1} % Start counter at 1
+\pagenumbering{arabic}
+
+\chapter{Introduction}\label{chp:Intro}
+\input{introduction}
+
+%\chapter{Case Description}
+%\input{case_description}
+
+
+\chapter{Hardware for the Embedded Vision System}\label{chp:Hardware}
+\input{hardware}
+
+
+\chapter{Computer Vision in an Embedded System}\label{chp:VIS}
+\input{vision}
+
+
+\chapter{Communication between the UR5 and the EVS}\label{chp:COM}
+\input{communication}
+
+\chapter{Implementation of the EVS on the UR5}\label{chp:FinalImplementation}
+\input{UR5_controller_system}
+
+\chapter{Discussion and Conclusion}\label{chp:Conclusion}
+\input{conclusion}
+\chapter{Future Work}\label{chp:futurework}
+\input{future_work}
+
+% --------- End Matter --------- %
+
+\newpage
+\listoffigures
+%\begingroup
+%\let\clearpage\relax
+\newpage
+\listoftables
+%\endgroup
+
+\begin{appendices}
+\makeatletter
+\addtocontents{toc}{\let\protect\l@chapter\protect\l@section}
+\makeatother
+\makeatletter
+\addtocontents{toc}{\let\protect\l@section\protect\l@subsection}
+\makeatother
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % Exclude everthing from \section and downwards from ToC
+\captionsetup{list=no} % Exclude all figures and tables from LoF and LoT
+
+% Chapter 2 Hardware:
+% Chapter 3 Vision:
+\input{app_camera_calibration}
+%\input{app_evs_object_detection}
+\input{app_distance_calculation}
+\input{app_opencv_functions}
+\input{app_canny_edge}
+
+% Chapter 4 Communication:
+\input{app_dual_rpi_speed}
+\input{app_K827P_speed}
+
+% Chapter 5 UR5 Controller System:
+%\input{app_final_implementation_benchmark}
+
+
+\end{appendices}
+
+%\bibliographystyle{siam}
+%\bibliography{bibliography}
+\printbibliography
+
+\end{document}
