@@ -25,9 +25,13 @@ if __name__ == "__main__":
         msg = autoquadNode.RegisterNode()
         print "Registration complete"
 
-        print "Binary ID:   ", msg.get_data_binary()
-        print "Binary data: ", msg.get_id_binary()
-        print "Function ID: ", msg.get_fid()
+        print "Binary ID:       ", msg.get_id_binary()
+        print "Binary data:     ", msg.get_data_binary()
+        print "Function ID:     ", msg.get_function_id()
+        print "Target type:     ", msg.get_target_type()
+        print "Logical Com. Ch: ", msg.get_logical_communications_channel()
+        print "Target ID:       ", msg.get_target_id()
+        print "Sequence ID:     ", msg.get_sequence_id()
 
     except AssertionError:
         exit("Unable to register node")
