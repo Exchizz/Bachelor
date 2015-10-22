@@ -12,7 +12,7 @@ class AutoQuadNode(CanInterface):
     def RegisterNode(self):
         # ...1c... = register node, can.h
         # Little endian, mhmh
-        self.send(0x01c00000, ['\x67','\x45','\x23','\x03'])
+        self.send(0x01c00000, ['\x67','\x45','\x23','\x01'])
 
         # Get ACK msg (if any)
         msg = self.recv()

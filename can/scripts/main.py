@@ -12,10 +12,6 @@ If you can't find the name of the interface in 'ifconfig', you might be missing 
 '''
 
 from AutoQuadNode import AutoQuadNode
-from CanInterface import CanInterface
-
-CAN_FID_GRANT_ADDR = 0x8
-
 
 if __name__ == "__main__":
     autoquadNode = AutoQuadNode('can0', 'socketcan')
@@ -32,6 +28,7 @@ if __name__ == "__main__":
         print "Logical Com. Ch: ", msg.get_logical_communications_channel()
         print "Target ID:       ", msg.get_target_id()
         print "Sequence ID:     ", msg.get_sequence_id()
+        print "UUID data (HEX): ", msg.get_uuid_data()
 
     except AssertionError:
         exit("Unable to register node")

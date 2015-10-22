@@ -11,6 +11,19 @@ class CanMessage:
         data_binary = "{:*>64b}".format(int(data_string, 16))
         return data_binary
 
+    def get_data_hex(self):
+        data_strings = []
+        field_strings = []
+
+        for byte in self.msg.data:
+            data_strings.append("%.2x" % byte)
+        if len(data_strings) > 0:
+            field_strings.append(" ".join(data_strings).ljust(24, " "))
+        else:
+            field_strings.append(" " * 24)
+
+        return "    ".join(field_strings).strip()
+
     def get_id_binary(self):
         # Returns msg's id as binary string
         id_string = "%.8x" % self.msg.arbitration_id
@@ -42,3 +55,6 @@ class CanMessage:
         rxId = self.get_id_binary()
         seqid = int(rxId[-6:],2) # Get two first bits [28:27]
         return seqid
+
+    def get_uuid_data(self):
+        return self.get_data_hex()
