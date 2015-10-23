@@ -58,3 +58,15 @@ class CanMessage:
 
     def get_uuid_data(self):
         return self.get_data_hex()
+
+    def __str__(self):
+        out = ""
+        out += "Binary ID:       " + str(self.get_id_binary()) + "\n"
+        out += "Binary data:     " + str(self.get_data_binary()) + "\n"
+        out += "Function ID:     " + str( self.get_function_id()) + "\n"
+        out += "Target type:     " + str( self.get_target_type()) + "\n"
+        out += "Logical Com. Ch: " + str( self.get_logical_communications_channel()) + "\n"
+        out += "Target ID:       " + str( self.get_target_id()) + "\n"
+        out += "Sequence ID:     " + str( self.get_sequence_id()) + "\n"
+        out += "UUID data (HEX): " + str( self.get_uuid_data()) + "\n"
+        return out
