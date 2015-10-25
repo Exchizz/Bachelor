@@ -12,9 +12,9 @@ class CanInterface:
                 print "Tx MSG: ", msg
                 if self.bus.send(msg) < 0:
                         exit("Unable to send, stopping")
-                else:
-                        print("Message sent")
+                #else:
+                #        print("Message sent")
 
-        def recv(self):
-                return self.bus.recv(timeout = 5)
+        def recv(self, timeout = 5):
+                return self.bus.recv(timeout = timeout)
 

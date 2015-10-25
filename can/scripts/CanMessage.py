@@ -7,18 +7,24 @@ class CanMessage:
 
     def get_data_binary(self):
         # Returns msg's data as binary string
-        data_string = ''.join(["%.2x" % byte for byte in self.msg.data])
-        data_binary = "{:*>64b}".format(int(data_string, 16))
-        return data_binary
+        if self.msg.data is not None:
+            data_string = ''.join(["%.2x" % byte for byte in self.msg.data])
+            data_binary = "{:*>64b}".format(int(data_string, 16))
+            return data_binary
+        else:
+            return ""
 
-    def get_data_hex(self):
+    def get_data_hex(self, space = 0):
         data_strings = []
         field_strings = []
 
         for byte in self.msg.data:
             data_strings.append("%.2x" % byte)
         if len(data_strings) > 0:
-            field_strings.append(" ".join(data_strings).ljust(24, " "))
+            if space:
+                field_strings.append(" ".join(data_strings).ljust(24, " "))
+            else:
+                field_strings.append("".join(data_strings).ljust(24, " "))
         else:
             field_strings.append(" " * 24)
 
@@ -43,7 +49,7 @@ class CanMessage:
 
     def get_logical_communications_channel(self):
         rxId = self.get_id_binary()
-        llc = int(rxId[2],2) # Get two first bits [28:27]
+        llc = int(rxId[0:2],2) # Get two first bits [28:27]
         return llc
 
     def get_target_id(self):
@@ -55,6 +61,11 @@ class CanMessage:
         rxId = self.get_id_binary()
         seqid = int(rxId[-6:],2) # Get two first bits [28:27]
         return seqid
+
+    def get_data_object(self):
+        rxId = self.get_id_binary()
+        doc_id = int(rxId[9:13],2) # Get two first bits [28:27]
+        return doc_id
 
     def get_uuid_data(self):
         return self.get_data_hex()

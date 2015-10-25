@@ -12,7 +12,9 @@ If you can't find the name of the interface in 'ifconfig', you might be missing 
 '''
 
 from AutoQuadNode import AutoQuadNode
+from CanMessage import CanMessage
 from time import sleep
+
 
 class Me:
     pass
@@ -21,12 +23,32 @@ CAN_TYPE_SENSOR = '\x03'
 
 if __name__ == "__main__":
     me = Me()
-    autoquadNode = AutoQuadNode('can0', 'socketcan')
+    autoquadNode = AutoQuadNode('can1', 'socketcan')
 
-    print "Registering node"
+    #Wait for AQ to send reset-msg
+    autoquadNode.WaitForReset(timeout=1000);
+    print "Recevied readymsg"
+
     msg = autoquadNode.RegisterNode(CAN_TYPE_SENSOR,1) # (type,canId)
-    print "Registration complete"
+
+    #Wait for telemetryTryValue
+    msg = autoquadNode.recv()
+    msg = CanMessage(msg)
     print msg
-    sleep(0.5)
+    autoquadNode.AnswerRequestTelemValue(msg)
+
+    msg = autoquadNode.recv()
+    msg = CanMessage(msg)
+    autoquadNode.AnswerRequestTelemRate(msg)
+
+    #Wait for telemetryTryRate
+    #msg = autoquadNode.recv()
+    #print "request rate: ", msg
+    #msg = autoquadNode.AnswerRequestTelemValue()
+
+    #print "Registration complete"
+    #print msg
+    #sleep(0.5)
     #me.source_id = msg.get_target_id()
-    msg = autoquadNode.ReqistrerTelem(CAN_TYPE_SENSOR)
+    #msg = autoquadNode.ReqistrerTelem(CAN_TYPE_SENSOR, 1) # (type, canId)
+    #print msg
