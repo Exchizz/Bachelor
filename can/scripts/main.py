@@ -13,7 +13,6 @@ If you can't find the name of the interface in 'ifconfig', you might be missing 
 
 from AutoQuadNode import AutoQuadNode
 from CanMessage import CanMessage
-from time import sleep
 
 
 class Me:
@@ -45,9 +44,9 @@ if __name__ == "__main__":
         msg = CanMessage(msg)
         autoquadNode.AnswerRequestTelemRate(msg)
     #else:
+        autoquadNode.SendCMD()
 
-#me.source_id = msg.get_target_id()
-        while True:
-            autoquadNode.ReqistrerTelem(CAN_TYPE_SENSOR, 0) # (type, canId())CAN_SENSORS_PDB_BATA = 0
-            sleep(0.1)
-            print "tx msg"
+        #while True:
+        #    autoquadNode.ReqistrerTelem(CAN_TYPE_SENSOR, 0) # (type, canId())CAN_SENSORS_PDB_BATA = 0
+        #    sleep(0.1)
+        #    print "tx msg"
