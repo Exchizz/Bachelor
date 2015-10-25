@@ -2,7 +2,7 @@ __author__ = 'exchizz'
 
 from CanInterface import CanInterface
 from CanMessage import CanMessage
-
+from struct import pack
 
 class AutoQuadNode(CanInterface):
     def __init__(self, iface, type):
@@ -31,6 +31,7 @@ class AutoQuadNode(CanInterface):
 
         except AssertionError:
             print ("Unable to register node")
+
     def AnswerRequestTelemValue(self, msg):
         # Receives [0008] (4 hex, two bytes)
         index = int(msg.get_data_hex()[0:2],16)
@@ -64,18 +65,27 @@ class AutoQuadNode(CanInterface):
     def ReqistrerTelem(self, type, canId):
         # ...1c... = register telem, can.h
         # Little endian, mhmh #0x02c000
-        self.send(0x02C00800, ['\xEF','\xCD','\xAB','\x89',type, canId,'\x23','\x01']) # Hardcoded sid to 1
+        sensor_value = 15.5
+        sensor_value_float = pack('>f', sensor_value)
+        data_float = [int(ord(elm)) for elm in sensor_value_float]
+
+        #list2 = [elm.replace('0x',r'x') for elm in data_float]
+        data_float.reverse()
+        data_float.extend([type, canId,'\x00','\x00'])
+        print "data: ", data_float
+        #self.send(0x02C00800, ['\x00','\x00','\x00','\x01',type, canId,'\x00','\x00']) # Hardcoded sid to 1
+        self.send(0x02C00800, data_float)
 
         # Get ACK msg (if any)
-        msg = self.recv()
+        #msg = self.recv()
 
         #Throws exception if msg is None = we haven't received an msg
-        try:
-            assert(msg != None)
+        #try:
+        #    assert(msg != None)
 
-            print "Rx MSG: ", msg
-            obj = CanMessage(msg)
-            return obj
+        #    print "Rx MSG: ", msg
+        #    obj = CanMessage(msg)
+        #    return obj
 
-        except AssertionError:
-            exit("Unable to TX msg")
+        #except AssertionError:
+        #    exit("Got no response")

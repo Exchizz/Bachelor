@@ -20,35 +20,34 @@ class Me:
     pass
 
 CAN_TYPE_SENSOR = '\x03'
+telemetry = 1
 
 if __name__ == "__main__":
-    me = Me()
-    autoquadNode = AutoQuadNode('can1', 'socketcan')
+        me = Me()
+        autoquadNode = AutoQuadNode('can1', 'socketcan')
 
-    #Wait for AQ to send reset-msg
-    autoquadNode.WaitForReset(timeout=1000);
-    print "Recevied readymsg"
 
-    msg = autoquadNode.RegisterNode(CAN_TYPE_SENSOR,1) # (type,canId)
 
-    #Wait for telemetryTryValue
-    msg = autoquadNode.recv()
-    msg = CanMessage(msg)
-    print msg
-    autoquadNode.AnswerRequestTelemValue(msg)
+    #if telemetry:
+        #Wait for AQ to send reset-msg
+        autoquadNode.WaitForReset(timeout=1000);
+        print "Recevied readymsg"
 
-    msg = autoquadNode.recv()
-    msg = CanMessage(msg)
-    autoquadNode.AnswerRequestTelemRate(msg)
+        msg = autoquadNode.RegisterNode(CAN_TYPE_SENSOR,1) # (type,canId)
 
-    #Wait for telemetryTryRate
-    #msg = autoquadNode.recv()
-    #print "request rate: ", msg
-    #msg = autoquadNode.AnswerRequestTelemValue()
+        #Wait for telemetryTryValue
+        msg = autoquadNode.recv()
+        msg = CanMessage(msg)
+        print msg
+        autoquadNode.AnswerRequestTelemValue(msg)
 
-    #print "Registration complete"
-    #print msg
-    #sleep(0.5)
-    #me.source_id = msg.get_target_id()
-    #msg = autoquadNode.ReqistrerTelem(CAN_TYPE_SENSOR, 1) # (type, canId)
-    #print msg
+        msg = autoquadNode.recv()
+        msg = CanMessage(msg)
+        autoquadNode.AnswerRequestTelemRate(msg)
+    #else:
+
+#me.source_id = msg.get_target_id()
+        while True:
+            autoquadNode.ReqistrerTelem(CAN_TYPE_SENSOR, 0) # (type, canId())CAN_SENSORS_PDB_BATA = 0
+            sleep(0.1)
+            print "tx msg"
