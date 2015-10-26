@@ -32,4 +32,4 @@ sudo modprobe vcan
 sudo ip link add type vcan
 
 setup_canX 0
-#setup_canX 1
+setup_canX 1

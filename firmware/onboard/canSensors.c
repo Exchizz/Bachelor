@@ -23,18 +23,18 @@ canSensorsStruct_t canSensorsData;
 
 void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
     canSensorsData.values[canId] = *(float *)data;
-
+    //debug_printf("Data in callback: %F\n", canSensorsData.values[canId]);
     // record reception time
     canSensorsData.rcvTimes[canId] = timerMicros();
 }
 
 void canSensorsInit(void) {
-    int i;
+    int i = 0;
 
     for (i = 0; i < CAN_SENSORS_NUM; i++) {
         if ((canSensorsData.nodes[i] = canFindNode(CAN_TYPE_SENSOR, i)) != 0) {
             canTelemRegister(canSensorsReceiveTelem, CAN_TYPE_SENSOR);
-
+            //debug_printf("Registering node as sensor, canID: %d\n", i);
             // request telemetry
             canSetTelemetryValue(CAN_TT_NODE, canSensorsData.nodes[i]->networkId, 0, CAN_TELEM_VALUE);
             canSetTelemetryRate(CAN_TT_NODE, canSensorsData.nodes[i]->networkId, CAN_SENSORS_RATE);

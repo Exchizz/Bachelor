@@ -75,9 +75,10 @@ static void __canSend(uint32_t id, uint8_t tid, uint8_t seqId, uint8_t n, void *
         txPtr = &canData.txMsgsHi[canData.txHeadHi];
     else
         txPtr = &canData.txMsgsLo[canData.txHeadLo];
-
+    result = tid;
     txPtr->TIR = id | ((tid & 0x1f)<<9) | (seqId<<3) | CAN_Id_Extended;
 
+    // Max 15, 16 = 0, limiter til 4 bits
     n = n & 0xf;
     txPtr->TDTR = n;
 
@@ -149,7 +150,7 @@ static uint8_t *canSendWaitResponse(uint32_t extId, uint8_t tid, uint8_t n, uint
     int timeout = CAN_TIMEOUT;
 
     seqId = canSend(extId, tid, n, data);
-
+    //debug_printf("Looking for seq: %d\n", seqId);
     do {
         yield(1);
         timeout--;
@@ -160,6 +161,7 @@ static uint8_t *canSendWaitResponse(uint32_t extId, uint8_t tid, uint8_t n, uint
         return 0;
     }
     else if (canData.responses[seqId] != (CAN_FID_NACK>>25)) {
+        //debug_printf("returning seq*8: %d \n", seqId*8);
         return &canData.responseData[seqId*8];
     }
     // NACK
@@ -392,19 +394,21 @@ static uint8_t canProcessMessage(canBuf_t *rx) {
     uint32_t *ptr = (uint32_t *)&canData.responseData[seqId*8];
     uint8_t ret = 0;
     result = id;
-
-    AQ_PRINTF("fid: %d", result);
+    //debug_printf("Got id: %d\n", (id & CAN_FID_MASK) >> 25);
     switch (id & CAN_FID_MASK) {
         case CAN_FID_REQ_ADDR:
-            AQ_PRINTF("Got grant Addr\n", " ");
             canGrantAddr(rx);
             ret = 1;
             break;
 
         // telemetry callbacks
         case CAN_FID_TELEM:
-            if (canData.telemFuncs[canData.nodes[sid-1].type])
+            if (canData.telemFuncs[canData.nodes[sid-1].type]){
+                //debug_printf("sid: %d, type: %d, doc: %d, data: %X\n", sid-1,canData.nodes[sid-1].type,doc, *data );
                 canData.telemFuncs[canData.nodes[sid-1].type](canData.nodes[sid-1].canId, doc, data);
+            } else {
+                //debug_printf("type not set, sid: %d, type: %d\n", (sid - 1), canData.nodes[sid-1].type);
+            }
             break;
 
         case CAN_FID_CMD:
@@ -412,6 +416,7 @@ static uint8_t canProcessMessage(canBuf_t *rx) {
             break;
 
         case CAN_FID_ACK:
+            //debug_printf("Received ACK, seq: %d\n", seqId);
         case CAN_FID_NACK:
         case CAN_FID_REPLY:
             canData.responses[seqId] = (id & CAN_FID_MASK)>>25;
@@ -431,10 +436,8 @@ int canCheckMessage(uint32_t loop) {
     while (canData.rxHead != canData.rxTail) {
         rx = &canData.rxMsgs[canData.rxTail];
         canData.rxTail = (canData.rxTail + 1) % CAN_BUF_SIZE_RX;
-        AQ_PRINTF("Got CAN msg\n", " ");
         ret = canProcessMessage(rx);
     }
-    //AQ_PRINTF("Got some CAN\n","hej");
 
     if (canData.initialized)
         canOSDTelemetry(loop);
@@ -547,20 +550,19 @@ void canInit(void) {
     CAN_FilterInitStructure.CAN_FilterIdLow = 0x0000;
     CAN_FilterInitStructure.CAN_FilterMaskIdHigh = 0x0000;
     CAN_FilterInitStructure.CAN_FilterMaskIdLow = CAN_TID_MASK;
-    //CAN_FilterInitStructure.CAN_FilterMaskIdLow = 0x0000;
     CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 0;
     CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;
     CAN_FilterInit(&CAN_FilterInitStructure);
 
+    //debug_printf("Broadcasting msg to start sensors\n");
     canResetBus();
 
-    // wait 100ms for nodes to report in
+    // wait 100ms for nodes to report in 
     micros = timerMicros() + 100000;
     while (timerMicros() < micros)
         // extend wait period if more nodes found
         if (canCheckMessage(0))
             micros = timerMicros() + 100000;
-
     canDiscoverySummary();
     canSensorsInit();
     canUartInit();
