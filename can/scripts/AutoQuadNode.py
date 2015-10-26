@@ -3,16 +3,23 @@ __author__ = 'exchizz'
 from CanInterface import CanInterface
 from CanMessage import CanMessage
 from struct import pack
+import numpy as np
 
 class AutoQuadNode(CanInterface):
     def __init__(self, iface, type):
         # Call base constructor
         CanInterface.__init__(self, iface, type)
 
+        x = np.linspace(0, 2*np.pi, 20)
+        self.sinus = np.sin(x)
+        self.phase = 0
+
     def WaitForReset(self, timeout=0):
         #Wait for AQ to send it's ready msg(my own debug msg)
         self.recv(timeout)
 
+    def SendCMD(self):
+        pass
     def RegisterNode(self, type, canId):
         # ...1c... = register node, can.h
         # Little endian, mhmh
@@ -65,14 +72,18 @@ class AutoQuadNode(CanInterface):
     def ReqistrerTelem(self, type, canId):
         # ...1c... = register telem, can.h
         # Little endian, mhmh #0x02c000
-        sensor_value = 15.5
+        sensor_value = self.sinus[self.phase]
+        self.phase +=1
+
+        self.phase = self.phase % 20
         sensor_value_float = pack('>f', sensor_value)
+        #print sensor_value
         data_float = [int(ord(elm)) for elm in sensor_value_float]
 
         #list2 = [elm.replace('0x',r'x') for elm in data_float]
         data_float.reverse()
         data_float.extend([type, canId,'\x00','\x00'])
-        print "data: ", data_float
+        #print "data: ", data_float
         #self.send(0x02C00800, ['\x00','\x00','\x00','\x01',type, canId,'\x00','\x00']) # Hardcoded sid to 1
         self.send(0x02C00800, data_float)
 
