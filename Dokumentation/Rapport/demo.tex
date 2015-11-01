@@ -1,0 +1,40 @@
+% Demonstration of pgf-umlsd.sty, a set of convenient macros for drawing
+% UML sequence diagrams. Written by Xu Yuan <xuyuan.cn AT gmail.com> from
+% Southeast University, China.
+% The project is hosted at Google code: http://code.google.com/p/pgf-umlsd/ 
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage{tikz}
+\usepackage{pgf-umlsd}
+\usepgflibrary{arrows} % for pgf-umlsd
+\usepackage{verbatim}
+
+\begin{document}
+
+\begin{sequencediagram}
+  \newthread{0.4}{pynode}{PyNode}
+  \newthread{7}{autoquad}{AutoQuad}
+
+  \mess{autoquad}{RESET}{pynode}
+
+  \begin{call}[3]{autoquad}{Wait(100ms)}{autoquad}
+		\postlevel
+		\postlevel
+		\mess{pynode}{REQADDR}{autoquad}
+		\postlevel
+		\mess{autoquad}{GRANTADDR}{pynode}
+  \end{call}
+  \mess{autoquad}{CanTelemeryValue}{pynode}
+  \mess{pynode}{ACKValue*}{autoquad}
+  \postlevel
+
+  \mess{autoquad}{CanTelemetryRate}{pynode}
+  \mess{pynode}{ACKRate}{autoquad}
+
+    
+    
+\end{sequencediagram}
+
+
+\end{document}
+
