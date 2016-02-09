@@ -19,7 +19,7 @@
 #include "aq.h"
 #ifdef USE_MAVLINK
 #include "aq_mavlink.h"
-#include "../mavlink/mavlink.h"
+#include "mavlink.h"
 #include "config.h"
 #include "aq_timer.h"
 #include "imu.h"

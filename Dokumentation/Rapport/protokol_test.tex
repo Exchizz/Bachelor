@@ -1,0 +1,34 @@
+\documentclass[a4paper,11pt, svgnames]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{listings}
+\usepackage{tikz-uml}
+
+
+
+\begin{document}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{umlseqdiag}
+	\umlactor[]{PyCan}
+	\umlobject[]{AutoQuad}
+	
+	\begin{umlcall}[op={RESET\_MSG}]{AutoQuad}{PyCan}
+	
+		\begin{umlcallself}[op={Wait 100 ms},dt=4,padding=6]{AutoQuad}{}
+					\begin{umlcall}[op={REQ\_ADDR\_MSG},dt=6, padding=4, return=GRANT\_ADDR]{PyCan}{AutoQuad}
+				\end{umlcall}
+		\end{umlcallself}
+		
+	\end{umlcall}
+
+
+
+\end{umlseqdiag}
+\end{tikzpicture}
+\end{center}
+\end{document}
+

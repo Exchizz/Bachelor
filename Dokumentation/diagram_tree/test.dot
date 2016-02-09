@@ -1,0 +1,17 @@
+digraph G {
+    nodesep=0.4; //was 0.8
+    ranksep=0.5;
+
+    {node[style=invis,label=""]; cx_30;
+    }
+    {node[style=invis, label="", width=.1]; ocx_45; ocx_20;
+    }
+
+    Function_ID -> REQ_ADDRESS;
+    Function_ID -> Telemetry;
+    Function_ID -> Process_CMD;
+
+    Process_CMD -> CAN_CMD_STREAM
+    Process_CMD -> CAN_CMD_TELEM_VALUE
+    Process_CMD -> CAN_CMD_TELEM_RATE
+}

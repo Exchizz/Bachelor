@@ -106,6 +106,12 @@ void runTaskCode(void *unused) {
 	else if (navUkfData.flowCount >= 10 && !navUkfData.flowLock) {
 	    navUkfFlowUpdate();
 	}
+
+        // If GPS data available from CAN
+        else if(CoAcceptSingleFlag(gpsData.gpsPosFromCanFlag) == E_OK){
+            navUkfGpsPosUpdate(gpsData.lastPosUpdate, gpsData.lat, gpsData.lon, gpsData.height, gpsData.hAcc + runData.accMask, gpsData.vAcc + runData.accMask);
+	    CoClearFlag(gpsData.gpsPosFromCanFlag);
+        }
 	// only accept GPS updates if there is no optical flow
 	else if (CoAcceptSingleFlag(gpsData.gpsPosFlag) == E_OK && navUkfData.flowQuality == 0.0f && gpsData.hAcc < NAV_MIN_GPS_ACC && gpsData.tDOP != 0.0f) {
 	    navUkfGpsPosUpdate(gpsData.lastPosUpdate, gpsData.lat, gpsData.lon, gpsData.height, gpsData.hAcc + runData.accMask, gpsData.vAcc + runData.accMask);

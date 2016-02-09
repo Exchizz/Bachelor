@@ -30,7 +30,6 @@
 #include <math.h>
 
 canStruct_t canData;
-int result;
 
 const char *canTypeStrings[] = {
     "NONE",
@@ -75,10 +74,9 @@ static void __canSend(uint32_t id, uint8_t tid, uint8_t seqId, uint8_t n, void *
         txPtr = &canData.txMsgsHi[canData.txHeadHi];
     else
         txPtr = &canData.txMsgsLo[canData.txHeadLo];
-    result = tid;
+
     txPtr->TIR = id | ((tid & 0x1f)<<9) | (seqId<<3) | CAN_Id_Extended;
 
-    // Max 15, 16 = 0, limiter til 4 bits
     n = n & 0xf;
     txPtr->TDTR = n;
 
@@ -150,7 +148,7 @@ static uint8_t *canSendWaitResponse(uint32_t extId, uint8_t tid, uint8_t n, uint
     int timeout = CAN_TIMEOUT;
 
     seqId = canSend(extId, tid, n, data);
-    debug_printf("Looking for seq: %d\n", seqId);
+
     do {
         yield(1);
         timeout--;
@@ -161,7 +159,6 @@ static uint8_t *canSendWaitResponse(uint32_t extId, uint8_t tid, uint8_t n, uint
         return 0;
     }
     else if (canData.responses[seqId] != (CAN_FID_NACK>>25)) {
-        debug_printf("returning seq*8: %d \n", seqId*8);
         return &canData.responseData[seqId*8];
     }
     // NACK
@@ -292,7 +289,7 @@ uint8_t *canSetTelemetryValue(uint32_t tt, uint8_t tid, uint8_t index, uint8_t v
 
     data[0] = index;
     data[1] = value;
-
+    debug_printf("Sending canSetTelemetryValue\n");
     return canSendWaitResponse(CAN_LCC_NORMAL | tt | CAN_FID_CMD | (CAN_CMD_TELEM_VALUE<<19), tid, 2, data);
 }
 
@@ -309,7 +306,7 @@ uint8_t *canSetTelemetryRate(uint32_t tt, uint8_t tid, uint16_t rate) {
     uint16_t data;
 
     data = rate;
-
+    debug_printf("Sending canSetTelemetryRate\n");
     return canSendWaitResponse(CAN_LCC_NORMAL | tt | CAN_FID_CMD | (CAN_CMD_TELEM_RATE<<19), tid, 2, (uint8_t *)&data);
 }
 
@@ -361,6 +358,7 @@ static void canGrantAddr(canBuf_t *rx) {
         data[5] = canData.nodes[i].subgroupId;
 
         // respond
+        debug_printf("Sending uniq address\n");
         canSend(CAN_LCC_HIGH | CAN_TT_NODE | CAN_FID_GRANT_ADDR, i+1, 6, data);
     }
 }
@@ -384,7 +382,6 @@ static void canProcessCmd(canNodes_t *node, uint8_t doc, uint16_t seqId, uint32_
 }
 
 static uint8_t canProcessMessage(canBuf_t *rx) {
-    
     uint32_t id = rx->TIR;
     uint8_t doc = (id & CAN_DOC_MASK)>>19;
     uint8_t sid = (id & CAN_SID_MASK)>>14;
@@ -393,8 +390,7 @@ static uint8_t canProcessMessage(canBuf_t *rx) {
     uint8_t n = rx->TDTR;
     uint32_t *ptr = (uint32_t *)&canData.responseData[seqId*8];
     uint8_t ret = 0;
-    result = id;
-    debug_printf("Got id: %d\n", (id & CAN_FID_MASK) >> 25);
+
     switch (id & CAN_FID_MASK) {
         case CAN_FID_REQ_ADDR:
             canGrantAddr(rx);
@@ -403,11 +399,9 @@ static uint8_t canProcessMessage(canBuf_t *rx) {
 
         // telemetry callbacks
         case CAN_FID_TELEM:
-            if (canData.telemFuncs[canData.nodes[sid-1].type]){
-                debug_printf("sid: %d, type: %d, doc: %d, data: %X\n", sid-1,canData.nodes[sid-1].type,doc, *data );
+           if (canData.telemFuncs[canData.nodes[sid-1].type]){
+                debug_printf("Calling callback\n");
                 canData.telemFuncs[canData.nodes[sid-1].type](canData.nodes[sid-1].canId, doc, data);
-            } else {
-                debug_printf("type not set, sid: %d, type: %d\n", (sid - 1), canData.nodes[sid-1].type);
             }
             break;
 
@@ -416,7 +410,6 @@ static uint8_t canProcessMessage(canBuf_t *rx) {
             break;
 
         case CAN_FID_ACK:
-            debug_printf("Received ACK, seq: %d\n", seqId);
         case CAN_FID_NACK:
         case CAN_FID_REPLY:
             canData.responses[seqId] = (id & CAN_FID_MASK)>>25;
@@ -436,6 +429,7 @@ int canCheckMessage(uint32_t loop) {
     while (canData.rxHead != canData.rxTail) {
         rx = &canData.rxMsgs[canData.rxTail];
         canData.rxTail = (canData.rxTail + 1) % CAN_BUF_SIZE_RX;
+
         ret = canProcessMessage(rx);
     }
 
@@ -514,7 +508,6 @@ void canLowLevelInit(void) {
 
     // Enable TX FIFO empty Interrupt
     CAN_ITConfig(CANx, CAN_IT_TME, ENABLE);
- 
 }
 
 void canDiscoverySummary(void) {
@@ -554,15 +547,15 @@ void canInit(void) {
     CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;
     CAN_FilterInit(&CAN_FilterInitStructure);
 
-    debug_printf("Broadcasting msg to start sensors\n");
     canResetBus();
 
-    // wait 100ms for nodes to report in 
+    // wait 100ms for nodes to report in
     micros = timerMicros() + 100000;
     while (timerMicros() < micros)
         // extend wait period if more nodes found
         if (canCheckMessage(0))
             micros = timerMicros() + 100000;
+
     canDiscoverySummary();
     canSensorsInit();
     canUartInit();

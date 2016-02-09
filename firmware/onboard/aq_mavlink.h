@@ -24,7 +24,7 @@
 #include "serial.h"
 #include "digital.h"
 #include "config.h"
-#include "../mavlink/mavlink_types.h"
+#include "../mavlink_types.h"
 
 #define MAVLINK_USE_CONVENIENCE_FUNCTIONS
 #define MAVLINK_SEND_UART_BYTES			mavlinkSendPacket

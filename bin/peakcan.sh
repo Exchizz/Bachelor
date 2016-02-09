@@ -8,7 +8,9 @@ setup_canX() {
 	# Try to down the interface - if it fails the interface does not exist.
 	sudo ifconfig can$1 down > /dev/null 2>&1
 	if [ $? -ne 0 ]; then
-		sudo ip link add name can$1 type vcan
+#		echo "Unable to bring can0 down.."
+#		sudo ip link add name can$1 type vcan
+		exit 1
 	fi
 
 	# Setup flags - fake devices do not support these

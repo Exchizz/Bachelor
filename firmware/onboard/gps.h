@@ -41,6 +41,7 @@ typedef struct {
     OS_TID gpsTask;
     OS_FlagID gpsVelFlag;
     OS_FlagID gpsPosFlag;
+    OS_FlagID gpsPosFromCanFlag;
 
     serialPort_t *gpsPort;
     unsigned int baudCycle[7];

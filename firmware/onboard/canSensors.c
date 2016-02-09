@@ -18,23 +18,37 @@
 
 #include "canSensors.h"
 #include "aq_timer.h"
-
+#include <CoOS.h>
+#include "gps.h"
 canSensorsStruct_t canSensorsData;
 
 void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
+    // Mathias
+    if(canId == CAN_SENSORS_GPS_LAT){
+      debug_printf("Setting gpsPosFromCanFlag\n");
+
+      gpsData.lastPosUpdate = timerMicros();
+      gpsData.lat = *(float *)(data+4);
+      gpsData.lon = *(float *)(data); // Add 4 because void is 1 byte, and we want next 4 bytes.
+      gpsData.height = 30;
+      gpsData.hAcc = 0;
+      gpsData.vAcc = 0;
+      CoSetFlag(gpsData.gpsPosFromCanFlag);
+    }
+    // End Mathias
     canSensorsData.values[canId] = *(float *)data;
-    //debug_printf("Data in callback: %F\n", canSensorsData.values[canId]);
+
     // record reception time
     canSensorsData.rcvTimes[canId] = timerMicros();
 }
 
 void canSensorsInit(void) {
-    int i = 0;
+    int i;
 
     for (i = 0; i < CAN_SENSORS_NUM; i++) {
         if ((canSensorsData.nodes[i] = canFindNode(CAN_TYPE_SENSOR, i)) != 0) {
             canTelemRegister(canSensorsReceiveTelem, CAN_TYPE_SENSOR);
-            //debug_printf("Registering node as sensor, canID: %d\n", i);
+
             // request telemetry
             canSetTelemetryValue(CAN_TT_NODE, canSensorsData.nodes[i]->networkId, 0, CAN_TELEM_VALUE);
             canSetTelemetryRate(CAN_TT_NODE, canSensorsData.nodes[i]->networkId, CAN_SENSORS_RATE);

@@ -3,6 +3,7 @@ __author__ = 'exchizz'
 from CanInterface import CanInterface
 from CanMessage import CanMessage
 from struct import pack
+from defines import *
 import numpy as np
 
 class AutoQuadNode(CanInterface):
@@ -18,11 +19,17 @@ class AutoQuadNode(CanInterface):
         #Wait for AQ to send it's ready msg(my own debug msg)
         self.recv(timeout)
 
-    def SendCMD(self):
-        pass
+    def SendCMD(self, cmd = '', doc = '0', seqid = '0', sourceid = 0):
+        # DOC = Data object code
+        # data = [0,1,2,3,4,5,6,7,8]
+        self.send(0x00000000 | CAN_FID_CMD | seqid | cmd | sourceid << 11, ['\x00','\xCD','\xAB','\x89','\x78', '\x45','\x23','\x01'])
+
+
+
     def RegisterNode(self, type, canId):
         # ...1c... = register node, can.h
         # Little endian, mhmh
+
         self.send(0x01c00000, ['\xEF','\xCD','\xAB','\x89',type, canId,'\x23','\x01'])
 
         # Get ACK msg (if any)

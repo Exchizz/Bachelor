@@ -28,7 +28,6 @@
 volatile unsigned long counter;
 volatile unsigned long minCycles = 0xFFFFFFFF;
 
-
 int main(void) {
     fpuInit();        // setup FPU context switching
 
