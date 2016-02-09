@@ -28,24 +28,21 @@ canMSG MessageCreator::Create_ReqAddr(int type, int canId){
 	return msg_out;
 }
 
-canMSG MessageCreator::Create_Stream(float x) {
+canMSG MessageCreator::Create_Stream(float lat, float lon) {
 	canMSG msg_out;
-	// NOT SAT correctly!?!?! NOTICE
 	msg_out.id = CAN_FID_TELEM | CAN_EFF | (mySession.source_id << (14-3));
 
-	const unsigned char * pf = reinterpret_cast<const unsigned char*>(&x);
+	std::cout << "lat: " << lat << " lon: " << lon << std::endl;
+
+	const unsigned char * lat_float = reinterpret_cast<const unsigned char*>(&lat);
+	const unsigned char * lon_float = reinterpret_cast<const unsigned char*>(&lon);
+
 	std::vector<int> v;
 
 	for (size_t i = 0; i != sizeof(float); ++i)
-	{
-	  // ith byte is pf[i]
-	  // e.g.
-		printf("%X ", pf[i]);
-		v.push_back(pf[i]);
-	}
-
-	// EF, CD, AB, 89 is uuid in AutoQuad
-	//std::vector<int> v {'\xEF','\xCD','\xAB','\x89',0, 0,'\x23','\x01'}; //
+		v.push_back(lon_float[i]);
+	for (size_t i = 0; i != sizeof(float); ++i)
+		v.push_back(lat_float[i]);
 
 	for(int i = 0; i < v.size(); ++i){
 		msg_out.data[i] = v[i];

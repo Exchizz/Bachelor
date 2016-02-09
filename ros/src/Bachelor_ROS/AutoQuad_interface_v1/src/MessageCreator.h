@@ -55,8 +55,21 @@ enum {
     CAN_CMD_ON,
     CAN_CMD_OFF
 };
-
-
+// sensor types
+enum {
+    CAN_SENSORS_PDB_BATV = 0,
+    CAN_SENSORS_PDB_BATA,
+    CAN_SENSORS_PDB_TEMP,
+    CAN_SENSORS_GIMBAL_ACCX,
+    CAN_SENSORS_GIMBAL_ACCY,
+    CAN_SENSORS_GIMBAL_ACCZ,
+    CAN_SENSORS_GIMBAL_GYOX,
+    CAN_SENSORS_GIMBAL_GYOY,
+    CAN_SENSORS_GIMBAL_GYOZ,
+    CAN_SENSORS_GPS_LAT, // Added by Mathias 08.02.15
+    CAN_SENSORS_GPS_LON, // Added by Mathias 08.02.15
+    CAN_SENSORS_NUM
+};
 // Custom
 #define CAN_EFF             (0x1 << 31) // Set can Extended bit(needed in can_interface my molar)
 #define CAN_DOC_MASK        (0x3f<< (19-3))
@@ -79,7 +92,7 @@ public:
 	canMSG Create_ReqAddr(int,int);
 	canMSG Create_SendACK();
 	Session mySession;
-	canMSG Create_Stream(float);
+	canMSG Create_Stream(float,float);
 };
 
 #endif /* MESSAGECREATOR_H_ */

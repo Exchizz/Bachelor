@@ -24,6 +24,11 @@ private:
 	int state;
 	MessageCreator messageCreator;
 	int txcount = 10;
+
+	//Make a nice plot :>
+	float phase = 0;
+	float value_long = 0;
+	float value_lat = 0;
 public:
 	void recv_reset_msg() {
 		ROS_WARN("Reset msg received");
@@ -53,7 +58,7 @@ public:
 		case ST_REQ_ADDR:
 		{
 			ROS_WARN("Tx: Request addr");
-			canMSG canMessage = messageCreator.Create_ReqAddr(CAN_TYPE_SENSOR, 1);
+			canMSG canMessage = messageCreator.Create_ReqAddr(CAN_TYPE_SENSOR, CAN_SENSORS_GPS_LAT);
 			pub_recv.publish(canMessage);
 			state = ST_IDLE;
 		}
@@ -63,14 +68,21 @@ public:
 			break;
 
 		case ST_STREAM:
-
-			ROS_WARN("Tx: Starting stream");
-			canMSG canMessage = messageCreator.Create_Stream(10.2);
-			pub_recv.publish(canMessage);
-			if( (txcount--) > 0 ){
-				ROS_WARN("Transition: ST_STREAM -> ST_IDLE");
-				state = ST_IDLE;
+			if( (txcount++) != 20 ){
+				break;
 			}
+			txcount = 0;
+			ROS_WARN("Tx: Starting stream");
+			// 55.13, 11.44 = Næstved
+			value_long = 0.93*sin(phase); // Vejle
+			value_lat = 0.21*cos(phase); // Vejle
+			phase+=0.261799;
+
+
+			canMSG canMessage = messageCreator.Create_Stream(55.22 + value_lat, 10.23 + value_long);
+			pub_recv.publish(canMessage);
+			//	state = ST_IDLE;
+			//}
 			break;
 		}
 	}
