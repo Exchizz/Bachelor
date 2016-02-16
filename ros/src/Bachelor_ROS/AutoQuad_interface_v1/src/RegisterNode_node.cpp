@@ -23,7 +23,7 @@ class RegisterNode_node : public AutoQuad {
 private:
 	int state;
 	MessageCreator messageCreator;
-	int txcount = 10;
+	int txcount = 10; //Loop runs with 20 hz, only run with 1 hz(qgroundstation plots slowly)
 
 	//Make a nice plot :>
 	float phase = 0;
@@ -68,14 +68,14 @@ public:
 			break;
 
 		case ST_STREAM:
-			if( (txcount++) != 20 ){
+			if( (txcount++) != 10 ){
 				break;
 			}
 			txcount = 0;
 			ROS_WARN("Tx: Starting stream");
 			// 55.13, 11.44 = Næstved
-			value_long = 0.93*sin(phase); // Vejle
-			value_lat = 0.21*cos(phase); // Vejle
+			value_long = 0.2*sin(phase); // Vejle
+			value_lat = 0.2*cos(phase); // Vejle
 			phase+=0.261799;
 
 

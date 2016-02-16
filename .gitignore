@@ -1,0 +1,7 @@
+build/
+devel/
+*.o
+*.elf
+*.map
+*.bak
+*.hex

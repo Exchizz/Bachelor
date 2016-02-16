@@ -289,7 +289,7 @@ uint8_t *canSetTelemetryValue(uint32_t tt, uint8_t tid, uint8_t index, uint8_t v
 
     data[0] = index;
     data[1] = value;
-    debug_printf("Sending canSetTelemetryValue\n");
+    //debug_printf("Sending canSetTelemetryValue\n");
     return canSendWaitResponse(CAN_LCC_NORMAL | tt | CAN_FID_CMD | (CAN_CMD_TELEM_VALUE<<19), tid, 2, data);
 }
 
@@ -306,7 +306,7 @@ uint8_t *canSetTelemetryRate(uint32_t tt, uint8_t tid, uint16_t rate) {
     uint16_t data;
 
     data = rate;
-    debug_printf("Sending canSetTelemetryRate\n");
+    //debug_printf("Sending canSetTelemetryRate\n");
     return canSendWaitResponse(CAN_LCC_NORMAL | tt | CAN_FID_CMD | (CAN_CMD_TELEM_RATE<<19), tid, 2, (uint8_t *)&data);
 }
 
@@ -358,7 +358,7 @@ static void canGrantAddr(canBuf_t *rx) {
         data[5] = canData.nodes[i].subgroupId;
 
         // respond
-        debug_printf("Sending uniq address\n");
+        //debug_printf("Sending uniq address\n");
         canSend(CAN_LCC_HIGH | CAN_TT_NODE | CAN_FID_GRANT_ADDR, i+1, 6, data);
     }
 }

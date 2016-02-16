@@ -25,7 +25,7 @@ canSensorsStruct_t canSensorsData;
 void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
     // Mathias
     if(canId == CAN_SENSORS_GPS_LAT){
-      debug_printf("Setting gpsPosFromCanFlag\n");
+      //debug_printf("Setting gpsPosFromCanFlag\n");
 
       gpsData.lastPosUpdate = timerMicros();
       gpsData.lat = *(float *)(data+4);
