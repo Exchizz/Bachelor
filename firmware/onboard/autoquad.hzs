@@ -1,12 +1,17 @@
 <!DOCTYPE CrossStudio_for_ARM_Session_File>
 <session>
- <Bookmarks/>
+ <Bookmarks>
+  <BookmarkItem column="-1" line="333" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="2" extra="debug_printf(&quot;Sending canSetTelemetryRate\n&quot;);" name="unnamed" color="5" />
+  <BookmarkItem column="-1" line="316" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="1" extra="//debug_printf(&quot;Sending canSetTelemetryValue\n&quot;);" name="unnamed" color="5" />
+  <BookmarkItem column="-1" line="385" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="3" extra="debug_printf(&quot;Sending uniq address\n&quot;);" name="unnamed" color="5" />
+ </Bookmarks>
  <Breakpoints>
   <BreakpointListItem line="158" action="" hardwareBreakpoint="" trigger="" useHWbreakpoint="false" group="Breakpoints" type="Breakpoint" state="4" counter="0" isFunctionBreakpoint="false" filename="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" expression="" />
+  <BreakpointListItem line="33" action="" hardwareBreakpoint="" trigger="" useHWbreakpoint="false" group="Breakpoints" type="Breakpoint" state="2" counter="0" isFunctionBreakpoint="false" filename="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.c" expression="" />
  </Breakpoints>
  <ExecutionProfileWindow/>
  <Memory1>
-  <MemoryWindow autoEvaluate="0" addressText="&amp;result" numColumns="8" sizeText="sizeof(result)" dataSize="1" radix="16" name="autoquad" addressSpace="" />
+  <MemoryWindow autoEvaluate="0" addressText="0x20012868" numColumns="8" sizeText="8" dataSize="1" radix="16" name="autoquad" addressSpace="" />
  </Memory1>
  <Memory2>
   <MemoryWindow autoEvaluate="0" addressText="" numColumns="8" sizeText="" dataSize="1" radix="16" name="autoquad" addressSpace="" />
@@ -54,14 +59,16 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" y="231" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" left="0" selected="0" name="unnamed" top="210" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.h" y="80" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.h" left="0" selected="0" name="unnamed" top="64" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" y="390" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" left="0" selected="0" name="unnamed" top="384" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.h" y="56" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.h" left="0" selected="0" name="unnamed" top="47" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.h" y="28" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.h" left="0" selected="0" name="unnamed" top="23" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="25" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.c" y="31" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.c" left="0" selected="1" name="unnamed" top="21" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/main_ctl.c" y="26" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/main_ctl.c" left="0" selected="0" name="unnamed" top="22" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/gps.c" y="148" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/gps.c" left="0" selected="0" name="unnamed" top="132" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/run.c" y="34" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/run.c" left="0" selected="0" name="unnamed" top="18" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/nav_ukf.c" y="523" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/nav_ukf.c" left="0" selected="0" name="unnamed" top="518" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.c" y="32" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/canSensors.c" left="0" selected="0" name="unnamed" top="17" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/main_ctl.c" y="30" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/main_ctl.c" left="0" selected="0" name="unnamed" top="19" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="15" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/run.c" y="117" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/run.c" left="3" selected="1" name="unnamed" top="106" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="30" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/gps.c" y="93" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/gps.c" left="0" selected="0" name="unnamed" top="78" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="75" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/ublox.c" y="349" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/ublox.c" left="0" selected="0" name="unnamed" top="343" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="ublox.h" y="24" path="ublox.h" left="0" selected="0" name="unnamed" top="24" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/nav_ukf.c" y="523" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/nav_ukf.c" left="0" selected="0" name="unnamed" top="512" />
  </Files>
  <ARMCrossStudioWindow activeProject="autoquad" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard" fileDialogDefaultFilter="*.hzp" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Release" />
 </session>

@@ -16,6 +16,8 @@
 #define ST_STREAM    4
 
 
+#define LOOP_RATE 30
+
 
 
 class RegisterNode_node : public AutoQuad {
@@ -23,7 +25,7 @@ class RegisterNode_node : public AutoQuad {
 private:
 	int state;
 	MessageCreator messageCreator;
-	int txcount = 10; //Loop runs with 20 hz, only run with 1 hz(qgroundstation plots slowly)
+	int txcount = LOOP_RATE; //Loop runs with 20 hz, only run with 1 hz(qgroundstation plots slowly)
 
 	//Make a nice plot :>
 	float phase = 0;
@@ -68,21 +70,30 @@ public:
 			break;
 
 		case ST_STREAM:
-			if( (txcount++) != 10 ){
+			if( (txcount++) != LOOP_RATE ){
 				break;
 			}
 			txcount = 0;
 			ROS_WARN("Tx: Starting stream");
 			// 55.13, 11.44 = Næstved
-			value_long = 0.2*sin(phase); // Vejle
-			value_lat = 0.2*cos(phase); // Vejle
+			value_long = 0.005*sin(phase); // Vejle
+			value_lat = 0.005*cos(phase); // Vejle
 			phase+=0.261799;
 
 
-			canMSG canMessage = messageCreator.Create_Stream(55.22 + value_lat, 10.23 + value_long);
+			canMSG canMessage = messageCreator.Create_Stream(55.36822 + value_lat, 0x01);
 			pub_recv.publish(canMessage);
+
+			canMessage = messageCreator.Create_Stream(10.42663 + value_long, 0x02);
+			pub_recv.publish(canMessage);
+
+			canMessage = messageCreator.Create_Stream(30, 0x03);
+			pub_recv.publish(canMessage);
+
 			//	state = ST_IDLE;
 			//}
+			//canMSG canMessage = messageCreator.Create_Stream(22.0/7.0, 0x01);
+			//pub_recv.publish(canMessage);
 			break;
 		}
 	}

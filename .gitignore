@@ -5,3 +5,5 @@ devel/
 *.map
 *.bak
 *.hex
+buildnum.h
+workspace.xml

@@ -17,6 +17,8 @@ typedef msgs::can canMSG;
 // Function ID (Substract 3 due to ARM's way of prepending status flags)
 #define CAN_FID_MASK        (0xf << (25-3 ))
 
+
+
 #define CAN_FID_REQ_ADDR    (0x7 << (25-3))
 #define CAN_FID_GRANT_ADDR  (0x8 << (25-3))
 #define CAN_FID_RESET_BUS   (0x0 << (25-3))
@@ -92,7 +94,7 @@ public:
 	canMSG Create_ReqAddr(int,int);
 	canMSG Create_SendACK();
 	Session mySession;
-	canMSG Create_Stream(float,float);
+	canMSG Create_Stream(double,unsigned int);
 };
 
 #endif /* MESSAGECREATOR_H_ */

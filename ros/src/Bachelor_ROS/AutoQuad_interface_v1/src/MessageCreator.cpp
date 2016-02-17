@@ -28,26 +28,17 @@ canMSG MessageCreator::Create_ReqAddr(int type, int canId){
 	return msg_out;
 }
 
-canMSG MessageCreator::Create_Stream(float lat, float lon) {
+canMSG MessageCreator::Create_Stream(double value, unsigned int doc) {
+
 	canMSG msg_out;
-	msg_out.id = CAN_FID_TELEM | CAN_EFF | (mySession.source_id << (14-3));
+	msg_out.id = CAN_FID_TELEM | CAN_EFF | (mySession.source_id << (14-3)) | (doc << (19-3));
 
-	std::cout << "lat: " << lat << " lon: " << lon << std::endl;
+	const unsigned char * value_double = reinterpret_cast<const unsigned char*>(&value);
 
-	const unsigned char * lat_float = reinterpret_cast<const unsigned char*>(&lat);
-	const unsigned char * lon_float = reinterpret_cast<const unsigned char*>(&lon);
-
-	std::vector<int> v;
-
-	for (size_t i = 0; i != sizeof(float); ++i)
-		v.push_back(lon_float[i]);
-	for (size_t i = 0; i != sizeof(float); ++i)
-		v.push_back(lat_float[i]);
-
-	for(int i = 0; i < v.size(); ++i){
-		msg_out.data[i] = v[i];
+	for(int i = 0; i < sizeof(double); ++i){
+		msg_out.data[i] = value_double[i];
 	}
-	msg_out.length = v.size();
+	msg_out.length = sizeof(double);
 
 	return msg_out;
 }

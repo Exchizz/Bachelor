@@ -23,18 +23,41 @@
 canSensorsStruct_t canSensorsData;
 
 void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
+
+    double data_double;
+    memcpy(&data_double,data,8);
+
     // Mathias
     if(canId == CAN_SENSORS_GPS_LAT){
-      //debug_printf("Setting gpsPosFromCanFlag\n");
-
-      gpsData.lastPosUpdate = timerMicros();
-      gpsData.lat = *(float *)(data+4);
-      gpsData.lon = *(float *)(data); // Add 4 because void is 1 byte, and we want next 4 bytes.
-      gpsData.height = 30;
-      gpsData.hAcc = 0;
-      gpsData.vAcc = 0;
-      CoSetFlag(gpsData.gpsPosFromCanFlag);
+      switch(doc){
+      case 0x01:
+        gpsData.lat = data_double;
+        debug_printf("got lat\t");
+        break;
+       case 0x02:
+        gpsData.lon = data_double;
+        debug_printf("lon\t");
+        break;
+       case 0x03:
+        gpsData.lastPosUpdate = timerMicros();
+        gpsData.height = data_double;
+        gpsData.hAcc = 0;
+        gpsData.vAcc = 0;
+        debug_printf("height\n");
+        CoSetFlag(gpsData.gpsPosFromCanFlag);
+        break;
+      }
     }
+    /*
+            gpsData.lastPosUpdate = timerMicros();
+        gpsData.lat = *(float *)(data+4);
+        gpsData.lon = *(float *)(data); // Add 4 because void is 1 byte, and we want next 4 bytes.
+        gpsData.height = 30;
+        gpsData.hAcc = 0;
+        gpsData.vAcc = 0;
+        CoSetFlag(gpsData.gpsPosFromCanFlag);
+        debug_printf("DOC: %X\n", doc);
+    */
     // End Mathias
     canSensorsData.values[canId] = *(float *)data;
 

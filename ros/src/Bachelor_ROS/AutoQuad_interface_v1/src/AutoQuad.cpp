@@ -3,7 +3,7 @@
 AutoQuad::AutoQuad(int argc, char** argv){
 	ros::init(argc, argv, "wait_for_reset");
 	ros::NodeHandle n;
-	pub_recv = n.advertise<msgs::can>("/fmSignal/can_to_device", 1);
+	pub_recv = n.advertise<msgs::can>("/fmSignal/can_to_device", 5);
 	sub_trans = n.subscribe("/fmSignal/can_from_device",1, &AutoQuad::can_callback, this);
 	// Run at 20 hz
 	timer = n.createTimer(ros::Duration(0.05), &AutoQuad::onTimer, this);
