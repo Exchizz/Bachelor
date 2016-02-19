@@ -16,7 +16,7 @@
 #define ST_STREAM    4
 
 
-#define LOOP_RATE 30
+#define LOOP_RATE 10
 
 
 
