@@ -130,17 +130,25 @@ include_directories(
 # add_dependencies(AutoQuad_interface_v1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-#add_executable(register_node src/RegisterNode_node.cpp src/AutoQuad.cpp src/MessageCreator.cpp src/Session.cpp)
 file(GLOB All_src_files src/*.cpp )
-add_executable(register_node ${All_src_files})
+list(REMOVE_ITEM All_src_files ${CMAKE_CURRENT_SOURCE_DIR}/src/RegisterNode_node.cpp)
+list(REMOVE_ITEM All_src_files ${CMAKE_CURRENT_SOURCE_DIR}/src/Sniffer_node.cpp)
+
+add_executable(register_node ${All_src_files} src/RegisterNode_node.cpp)
+add_executable(sniffer_node ${All_src_files} src/Sniffer_node.cpp)
 
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(register_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(sniffer_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(register_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(sniffer_node
   ${catkin_LIBRARIES}
 )
 
