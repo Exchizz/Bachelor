@@ -1,0 +1,10 @@
+cat toggle | while read line; do echo -n "\x00\x0${line}" | nc -4u -q1 192.168.0.11 8888; done
+
+
+
+# toggle file:
+
+# 1
+# 0
+# 1
+# 0
