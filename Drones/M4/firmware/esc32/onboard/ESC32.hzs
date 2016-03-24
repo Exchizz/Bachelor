@@ -1,0 +1,39 @@
+<!DOCTYPE CrossStudio_for_ARM_Session_File>
+<session>
+ <Bookmarks>
+  <BookmarkItem column="-1" line="385" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="3" extra="debug_printf(&quot;Sending uniq address\n&quot;);" name="unnamed" color="5" />
+  <BookmarkItem column="-1" line="316" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="1" extra="//debug_printf(&quot;Sending canSetTelemetryValue\n&quot;);" name="unnamed" color="5" />
+  <BookmarkItem column="-1" line="333" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="2" extra="debug_printf(&quot;Sending canSetTelemetryRate\n&quot;);" name="unnamed" color="5" />
+ </Bookmarks>
+ <Breakpoints/>
+ <ExecutionProfileWindow/>
+ <Memory1/>
+ <Memory2/>
+ <Memory3/>
+ <Memory4/>
+ <Project>
+  <ProjectSessionItem path="ESC32" name="unnamed" />
+ </Project>
+ <Register1/>
+ <Register2/>
+ <Register3/>
+ <Register4/>
+ <TargetWindow programAction="" uploadFileType="" programLoadAddress="" programSize="" uploadFileName="" uploadMemoryInterface="" programFileName="" uploadStartAddress="" programFileType="" uploadSize="" programMemoryInterface="" />
+ <TraceWindow>
+  <Trace enabled="Yes" />
+ </TraceWindow>
+ <Watch1>
+  <Watches active="1" update="Twice a Second" />
+ </Watch1>
+ <Watch2>
+  <Watches active="0" update="Never" />
+ </Watch2>
+ <Watch3>
+  <Watches active="0" update="Never" />
+ </Watch3>
+ <Watch4>
+  <Watches active="0" update="Never" />
+ </Watch4>
+ <Files/>
+ <ARMCrossStudioWindow activeProject="ESC32" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard" fileDialogDefaultFilter="*.hzp" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Release" />
+</session>
