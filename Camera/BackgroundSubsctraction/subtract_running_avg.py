@@ -9,9 +9,12 @@ import datetime
 import time
 import cv2
 import numpy as np
+from time import time, strftime
 
-camera = cv2.VideoCapture("drone_moving.mkv")
+
+#camera = cv2.VideoCapture("recording_flight_with_5_marker_afternoon.mkv")
 #camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture('floor_sun_waving_food.mkv')
 
 # initialize the first frame in the video stream
 firstFrame = None
@@ -57,7 +60,10 @@ while True:
 	# if the `q` key is pressed, break from the lop
 	if key == ord("q"):
 		break
-
-# cleanup the camera and close any open windows
-camera.release()
-cv2.destroyAllWindows()
+#        if cv2.waitKey(20) & 0xFF == 115: # s
+	if key == ord("s"): 
+		# save image
+		print("Saving image")
+		filename = strftime("%Y-%m-%d %H-%M-%S")
+		cv2.imwrite("run_avg_bg_fg_%s.png" % filename, frame)
+		cv2.imwrite("run_avg_fg_%s.png" % filename, fg)
