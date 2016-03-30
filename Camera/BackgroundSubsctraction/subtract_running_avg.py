@@ -12,9 +12,9 @@ import numpy as np
 from time import time, strftime
 
 
-#camera = cv2.VideoCapture("recording_flight_with_5_marker_afternoon.mkv")
+camera = cv2.VideoCapture("recording_flight_with_5_marker_afternoon.mkv")
 #camera = cv2.VideoCapture(0)
-camera = cv2.VideoCapture('floor_sun_waving_food.mkv')
+#camera = cv2.VideoCapture('floor_sun_waving_foot.mkv')
 
 # initialize the first frame in the video stream
 firstFrame = None

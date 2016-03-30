@@ -1,0 +1,147 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      4106,        137]
+NotebookOptionsPosition[      3407,        110]
+NotebookOutlinePosition[      3742,        125]
+CellTagsIndexPosition[      3699,        122]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+St\[ARing] foran kassen med hovedet mod vinduet.\
+\>", "Text",
+ CellChangeTimes->{{3.6683350909323597`*^9, 3.668335118223037*^9}}],
+
+Cell["Venstre", "Text",
+ CellChangeTimes->{{3.668335122485181*^9, 3.6683351252447243`*^9}, {
+  3.668335160472282*^9, 3.668335161846579*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  SubscriptBox["L", "1"], ":=", "220"}]], "Input",
+ CellChangeTimes->{{3.6683342402663307`*^9, 3.668334250547575*^9}}],
+
+Cell["Op", "Text",
+ CellChangeTimes->{{3.668335134638481*^9, 3.668335164020788*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  SubscriptBox["L", "2"], ":=", "290"}]], "Input",
+ CellChangeTimes->{{3.6683342525804167`*^9, 3.668334255715518*^9}}],
+
+Cell["H\[OSlash]jre", "Text",
+ CellChangeTimes->{{3.6683351473133097`*^9, 3.668335166377391*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  SubscriptBox["L", "3"], ":=", "210"}]], "Input",
+ CellChangeTimes->{{3.668334271595264*^9, 3.668334287478128*^9}}],
+
+Cell["Ned", "Text",
+ CellChangeTimes->{{3.668335170865074*^9, 3.6683351711955233`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  SubscriptBox["L", "4"], ":=", "285"}]], "Input",
+ CellChangeTimes->{{3.668334302552766*^9, 3.6683343104866123`*^9}}],
+
+Cell["Plot offset", "Text",
+ CellChangeTimes->{{3.668335176406798*^9, 3.6683351779282312`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"offset", ":=", "20"}]], "Input",
+ CellChangeTimes->{{3.6683350158308992`*^9, 3.668335018127109*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListLinePlot", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"offset", ",", "offset"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      SubscriptBox["L", "4"], ",", "offset"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      SubscriptBox["L", "4"], ",", 
+      SubscriptBox["L", "3"]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"offset", ",", 
+      SubscriptBox["L", "1"]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"offset", ",", "offset"}], "}"}]}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.66833429632152*^9, 3.6683342994809303`*^9}, {
+  3.668334731933104*^9, 3.668334736974845*^9}, {3.668334778870366*^9, 
+  3.668334849417904*^9}, {3.668334891940378*^9, 3.668334915315074*^9}, {
+  3.668334969939382*^9, 3.668334971547811*^9}, {3.6683350020247498`*^9, 
+  3.6683350493647337`*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{}, {}, 
+    {RGBColor[0.24720000000000014`, 0.24, 0.6], 
+     LineBox[{{20., 20.}, {285., 20.}, {285., 210.}, {20., 220.}, {20., 
+      20.}}]}}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  ImageSize->{519., Automatic},
+  Method->{},
+  PlotRange->{{0, 285.}, {0, 220.}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{5.7, 5.7}, {4.4, 4.4}}]], "Output",
+ CellChangeTimes->{
+  3.6683349159763203`*^9, 3.668334972214369*^9, {3.6683350088887672`*^9, 
+   3.6683350498387337`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1600, 853},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 140, 3, 31, "Text"],
+Cell[700, 25, 140, 2, 31, "Text"],
+Cell[843, 29, 142, 3, 32, "Input"],
+Cell[988, 34, 84, 1, 31, "Text"],
+Cell[1075, 37, 142, 3, 32, "Input"],
+Cell[1220, 42, 97, 1, 31, "Text"],
+Cell[1320, 45, 140, 3, 32, "Input"],
+Cell[1463, 50, 87, 1, 31, "Text"],
+Cell[1553, 53, 142, 3, 32, "Input"],
+Cell[1698, 58, 95, 1, 31, "Text"],
+Cell[1796, 61, 124, 2, 32, "Input"],
+Cell[CellGroupData[{
+Cell[1945, 67, 844, 22, 32, "Input"],
+Cell[2792, 91, 599, 16, 339, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
