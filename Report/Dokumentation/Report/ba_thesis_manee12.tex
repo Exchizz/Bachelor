@@ -198,7 +198,7 @@
 
 \input{frontpage}
 
-%\input{titlepage}
+%\input{preface}
 
 
 
@@ -206,21 +206,15 @@
 \setcounter{page}{1} % Start counter at 1
 \pagenumbering{roman}
 
-%\input{preface}
 \listoftodos
     \setcounter{tocdepth}{2}
 
-%\chapter*{Abstract}
+\chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
-%\input{abstract}
-
-%\chapter*{Reading Guide}
-\addcontentsline{toc}{chapter}{Reading Guide}
-%\input{reading_guide}
-
-%\chapter*{Terms and Notation}
-\addcontentsline{toc}{chapter}{Terms and Notation}
-%\input{terms_notations}
+\input{abstract}
+\newpage
+\chapter*{Preface}
+\input{preface}
 
 \newpage
 \renewcommand\contentsname{Table of Contents}
@@ -228,38 +222,48 @@
 %\addtocontents{toc}{\vskip-70pt}
 \newpage
 
-
+\chapter*{Reading Guide}
+\addcontentsline{toc}{chapter}{Reading Guide}
+\input{reading_guide}
 
 
 % --------- Main Matter --------- %
 \setcounter{page}{1} % Start counter at 1
 \pagenumbering{arabic}
+%\chapter{Reading Guide}
+%\input{reading_guide}
 
-%\chapter{Introduction}\label{chp:Intro}
-%\input{introduction}
+\chapter{List of Abbreviations}
+\input{list_of_abbreviations}
 
-%\chapter{Case Description}
-%\input{case_description}
+\chapter{Introduction}\label{chp:Intro}
+\input{introduction}
+
+\chapter{Materials and methods}
+\input{materials_and_methods}
+
+\chapter{Leader-followers}\label{chp:Hardware}
+\input{leader-followers}
+
+\chapter{Implementation}
+\input{implementation}
+
+\chapter{Test Descriptions}
+\Mathias{Maybe a chapter called "Test Descriptions here"}
+%\input{test_descriptions}
+
+\chapter{Results}\label{chp:Hardware}
+\input{results}
+
+\chapter{Discussion}\label{chp:Hardware}
+\input{discussion}
+
+\chapter{Conclusion}\label{chp:Hardware}
+\input{conclusion}
 
 
-%\chapter{Hardware for the Embedded Vision System}\label{chp:Hardware}
-%\input{hardware}
-
-
-%\chapter{Computer Vision in an Embedded System}\label{chp:VIS}
-%\input{vision}
-
-
-%\chapter{Communication between the UR5 and the EVS}\label{chp:COM}
-%\input{communication}
-
-%\chapter{Implementation of the EVS on the UR5}\label{chp:FinalImplementation}
-%\input{UR5_controller_system}
-
-%\chapter{Discussion and Conclusion}\label{chp:Conclusion}
-%\input{conclusion}
-%\chapter{Future Work}\label{chp:futurework}
-%\input{future_work}
+\chapter{Future work}\label{chp:Hardware}
+\input{future_work}
 
 % --------- End Matter --------- %
 
@@ -281,9 +285,6 @@
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % Exclude everthing from \section and downwards from ToC
 \captionsetup{list=no} % Exclude all figures and tables from LoF and LoT
 
-
-\section{test}
-\input{Introduction}
 % Chapter 2 Hardware:
 % Chapter 3 Vision:
 %\input{app_camera_calibration}

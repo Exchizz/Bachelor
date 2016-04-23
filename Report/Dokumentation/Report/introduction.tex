@@ -1,0 +1,14 @@
+Drones are more and more used in different applications in different areas because they make it relatively easy to get a quick or more in depth overview of a situation. A less positive thing of the drones is the amount of energy they are capable of carrying. A drone designed with long time-flight flying in mind is capable of flying approximately 20 minutes depending on weather and payload. If the drone is equipped with a heavy camera or other kind of payload, then the flight time starts to decrease rapidly. So far the solution has been to increase the size of the drones to mount bigger batteries, but this might not be right way of doing it. Drones become less efficient, less responsive and gets more dangerous due to increase in weight.
+
+By looking at the nature, one can easily see how small animals like ants and birds manage to cooperate and thereby build or move bigger things that they would not be able to do on their own. This way of small independent, decentralized units working together is called a swarm.\\
+
+By making drones smaller, they get more efficient, their flight time increase and they get cheaper but of the cost of their ability to lift. Therefore it seems like an idea to make small drones cooperate to solve more complex tasks.\\
+
+SDU is currently using a platform called AutoQuad which is supported by large and small drones. Solving a task as a swarm is complex, and is not in the scope of this project. This project intend to implement a Leader-follower principle inspired by birds flocking behaviour. The leader-drone will have a preprogrammed flight path and the follower-drones will have no knowledge about the flightpath. Each follow-drone will try to keep a distance of 50 cm within plus minus 10 cm to its neighbours and the leader-drone. A computer program will be written to control each drone and tell them where to go without colliding. This will be developed in an indoor controlled environment. Since GPS is unavailable indoor, this project will be using vision, e.g. Henrik Midtiby's MarkerLocator to get the location of each drone. When the Follow-leader has been implemented it should in theory work outside as well, though with larger distances due to GPS inaccuracy.
+
+\subsection{Related Work}
+\input{related_work}
+\subsection{Problem Statement}
+\input{problem_statement}
+\subsection{Hypothesis}
+\input{hypothesis}
