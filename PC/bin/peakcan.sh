@@ -15,7 +15,7 @@ setup_canX() {
 
 	# Setup flags - fake devices do not support these
 	sudo ip link set can$1 type can restart-ms 100 > /dev/null 2>&1
-	sudo ip link set can$1 up type can bitrate 250000 > /dev/null 2>&1
+	sudo ip link set can$1 up type can bitrate 1000000 > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		echo "can$1 setup as a real device."
 	else
