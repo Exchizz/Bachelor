@@ -1,28 +1,20 @@
-This test was split into two subtests.
+Testing of the spoofed GNS was split intro two subtests. \\
+The first test was conducted in order to validate the GPS spoofing using the CAN-bus works when the drone is laying on a table. \\
+Test 1 can be seen in \ref{sec:test_of_spoofed_positions_indoore}.\\
+The second test was conducted as the first test, but when the drone is airborn.\\
+Test 2 can be seen in \ref{sec:test_of_spoofed_positions_outdoore}
 
-This test was conducted in order to test if the GPS spoofing using the CAN-bus works when the drone is airborn. 
-(REFERERE til test hvor dronen ligger på bordet og dronen flyver rundt om SDU.)
-The second test was conducted to see if the drone can be controlled more accurately when the position of the drone is obtained using an RTK GPS, and then spoofed into the drone using the CAN-bus.\\
 
 
-\textbf{Test 1}
-
-To test if the coordinates is read probably by AutoQud, when fed intro the CAN-bus, a Rpi, GPS and CAN adaptor needs to be mounted on the EduQuad drone.  Figure x shows how the parts was connected. The RPI will receive the drones position from the GPS mounted on the drone. It will then extract the longitude and latitude from the NMEA string, and transmit the position to the drone using the CAN-bus. 
-If this works, it shows that the UKF works with the spoofed coordinates as expected, and that the author of the report can spoof the GPS position from a vision based localization system.
-
-To get the NMEA strings from the GPS, an already existing Frobomind component will be used. It reads from a serial port, and publishes the parsed NMEA string to a topic. The code written by the author will then subscribe to that topic and publish the CAN-messages to another topic. A third node which is also a part of Frobomind will then subscribe and send the CAN-messages  it to the CAN adaptor. 
+----------------------------------\\
 Figure Y shows the waypoint list uploaded to the drone. It is expected that the drone will behave as if it was using its onboard GPS.
 The GPS positions will be gathered in a rosbag to be used later on in test2.
 A flight with the onboard GPS will be done in order to have a reference flight.\\
-
-\begin{figure}[H]
-    \center
-    \includegraphics[width=0.5\textwidth]{graphics/test_drone_with_gps_pi.png}
-    \caption{Block schematic of the connected components on the EduQuad drone}
-    \label{fig:PCB_block}
-\end{figure}
-
-\textbf{Test2}
+\textbf{Testx}
 Test two will be conducted much the same way as test1. However the GPS will be replaced with a lightweight RTK GPS. The RTK GPS positions will also be saved in a rosbag for later analyse. Is is expected that when using the RTK GPS the drone is closer to its waypoints  shown in figure Y, than when using a normal GPS.
+
+----------------------------------\\
+
+
 
 
