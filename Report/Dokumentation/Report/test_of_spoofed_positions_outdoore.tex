@@ -38,8 +38,6 @@ if(gpsData.fix == 1){ // Single point solution
 }
 		\end{lstlisting}
 \end{minipage}
-
-\lstinline|        |
 \end{center}
 
 \begin{figure}[H]
@@ -48,12 +46,19 @@ if(gpsData.fix == 1){ // Single point solution
   \caption{The EduQuad drone with the hardware used in the test}
     \label{fig:eduquad_bottom_up}
 \end{figure}
-An extra battery was mounted on the drone to supply the Rpi. The ROS nodes running on the Rpi had to be start up before AQ starts registering notes on the CAN-bus. If the nodes was not started up, they would not reply to AQs reset-msg it sends when it is booting. 
+An extra battery was mounted on the drone to supply the Rpi. The ROS nodes running on the Rpi had to be start up before AQ starts registering notes on the CAN-bus. If the nodes was not started up, they would not reply to AQs reset-msg it sends when it is booting. \\
 
-\textbf{Conclusion}
-The test did not go as expected. The test was conducted under a time pressure since the author's supervisor had only 30 minutes to conduct the test.
-\Mathias{Hvordan kan det formuleres bedre ? }
- Several things went wrong:
+When the ROS-node were connected to the CAN bus, it showed that the ROS-node needed extra checking on CAN messages in order to detect difference between messages targeted the ROS-node and messages targeted the ESC32-nodes.
+
+
+A bug in the \textit{can\_socketcan} -node used to communicate with the Peak-Can adapter where found a fixed. It was later on merged back into Frobomind \footnote{\url{https://github.com/FroboLab/frobomind/pull/12}}
+\textbf{Conclusion} \\
+
+The test did not go as expected. The test was carried out under a time pressure since the author's supervisor only had 30 minutes to carry out the test.
+
+The author did though gain experience when having multiple CAN devices connected to the CAN-bus.
+
+Several things went wrong through the test:
 \begin{itemize}
 	\item The onboard GPS was not disabled
 	\item The author accidentally forgot to set the DOP values used in AQ
@@ -61,9 +66,13 @@ The test did not go as expected. The test was conducted under a time pressure si
 	\item The GPS antenna was not mounted in the middle of the frame as the onboard antenna.
 \end{itemize}
 
-Figure X shows the DOP value is lowering witch indicates that AQ was using its onboard GPS.
+Figure \ref{fig:qground_station_dop} shows the DOP value is lowering witch indicates that AQ was using its onboard GPS.
 
-<<<--- PLOT --->>
+\begin{figure}[H]
+    \center
+    \includegraphics[width=1\textwidth]{graphics/test_qground_station_dop.eps}
+  \caption{Plot of h/vDOP from logs when the drone was airborn}
+    \label{fig:qground_station_dop}
+\end{figure}
 
-Furthermore it can be seen that ...
-
+The test will be carried out again.
