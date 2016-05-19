@@ -2,7 +2,7 @@
 #include <stdint.h>
 //#include <stdlib.h>
 //#include <unistd.h>
-//#include <string.h>
+#include <string.h>
 //#include <netdb.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -22,94 +22,82 @@ class WIFI {
 		struct sockaddr_in addr;
 		crc_t crc;
 	public:
-		WIFI(int argc, char **argv){
-
-			int port = 8888;
-
+		WIFI(std::string ip, int port){
 			addr.sin_family = AF_INET;
 			addr.sin_port = htons(port);
-			ret = inet_aton("192.168.0.15", &addr.sin_addr);
+			ret = inet_aton(ip.c_str(), &addr.sin_addr);
 			if (ret == 0) { perror("inet_aton"); }
 
 			s = socket(PF_INET, SOCK_DGRAM, 0);
 			if (s == -1) { perror("socket"); exit(1); }
 
-
+			ROS_WARN("Communication to %s:%d started", ip.c_str(), port);
 		}
 
 		void GPSCallback(const Communication::GPS::ConstPtr& msg){
 			ROS_WARN("I heard a %f %f", msg->lat, msg->lon);
-/*
+
 			double lat = msg->lat;
 			double lon = msg->lon;
 			double height = msg->height;
 			double dop = msg->DOP;
 
-			unsigned char data_all[34];
+			unsigned char data[34];
 			int i = 0;
+			char temp[8];
 
-			unsigned char data[8];
-
-
-			memcpy(data, &lat, 8);
+			memcpy(temp, &lat, 8);
 			for(; i < 8; i++){
-				data_all[i] = data[(i)];
+				data[i] = temp[(i)];
 			}
 
-
-			memcpy(data, &lon, 8);
-
+			memcpy(temp, &lon, 8);
 			for(; i < 16; i++){
-				data_all[i] = data[(i-8)];
+				data[i] = temp[(i-8)];
 			}
 
-			memcpy(data, &height, 8);
+			memcpy(temp, &height, 8);
 			for(; i < 24; i++){
-				data_all[i] = data[(i-16)];
+				data[i] = temp[(i-16)];
 			}
 
-			memcpy(data, &dop, 8);
+			memcpy(temp, &dop, 8);
 			for(; i < 32; i++){
-				data_all[i] = data[(i-24)];
+				data[i] = temp[(i-24)];
 			}
 
-*/
-//			unsigned char data[] = "1abdefghijklmnopqrstuvxyz123456700";
 			crc = crc_init();
-			crc = crc_update(crc, data,32);
+			crc = crc_update(crc, data, 32);
 			crc = crc_finalize(crc);
 
-
-			data[32] = (crc>>8) & 0x00ff;
-			data[33] = crc & 0x00ff;
+			data[i++] = (crc>>8) & 0x00ff;
+			data[i++] = crc & 0x00ff;
 
 			ret = sendto(s, data, 34, 0, (struct sockaddr *)&addr, sizeof(addr));
 			if (ret == -1) {
 				perror("sendto");
 			}
-
 		}
 
 		void spin(){
 			ros::spin();
 		}
-
-
-
 };
 
-/**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
- */
-
 int main(int argc, char **argv){
-	WIFI wifi(argc, argv);
 
 
 	ros::init(argc, argv, "listener");
-	ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("data_in", 10, &WIFI::GPSCallback, &wifi);
-	ROS_WARN("Node started");
+	ros::NodeHandle n("~");
+	std::string param_ip, param_topic;
+	int param_port;
+
+	n.param<std::string>("ip", param_ip, "127.0.0.1");
+	n.param<int>("port", param_port, 8888);
+	n.param<std::string>("topic_sub", param_topic, "/data_in");
+
+	WIFI wifi(param_ip, param_port);
+	ros::Subscriber sub = n.subscribe(param_topic.c_str(), 10, &WIFI::GPSCallback, &wifi);
 	wifi.spin();
 	return 0;
 }

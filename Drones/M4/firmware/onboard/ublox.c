@@ -28,6 +28,7 @@
 #include "supervisor.h"
 #include "comm.h"
 #include <CoOS.h>
+#include "radio.h"
 #include <string.h>
 
 ubloxStruct_t ubloxData __attribute__((section(".ccm")));
@@ -321,11 +322,27 @@ static void ubloxSendPacket(uint8_t commType) {
 
 unsigned char ubloxPublish(void) {
     unsigned char ret = 0;
+    static uint8_t last_onboard_gps = 0;
 
+    int16_t chan_aux5 = radioData.channels[(int)(p[RADIO_AUX4_CH]-1)]; 
+    uint8_t onboard_gps = 1;
+    if(chan_aux5 < 100 || chan_aux5 > -100){
+      onboard_gps = 0;
+    }
+
+    if(onboard_gps != last_onboard_gps){
+      last_onboard_gps = onboard_gps;
+      if(onboard_gps){
+            AQ_PRINTF("Using onboard GPS\n",0);
+      } else {
+            AQ_PRINTF("Using CAN GPS\n",0);
+      }
+    }
     // don't allow preemption
     CoSetPriority(gpsData.gpsTask, 1);
 
-    if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_POSLLH) {
+    if(onboard_gps){
+      if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_POSLLH) {
         // work around uBlox's inability to give new data on each report sometimes
         if (ubloxData.lastLat != ubloxData.payload.posllh.lat || ubloxData.lastLon != ubloxData.payload.posllh.lon) {
             ubloxData.lastLat = ubloxData.payload.posllh.lat;
@@ -346,8 +363,8 @@ unsigned char ubloxPublish(void) {
             // position update
             ret = 1;
         }
-    }
-    else if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_VALNED) {
+      }
+      else if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_VALNED) {
         gpsData.iTOW = ubloxData.payload.valned.iTOW;
         gpsData.velN = ubloxData.payload.valned.velN * 0.01f;           // cm => m
         gpsData.velE = ubloxData.payload.valned.velE * 0.01f;           // cm => m
@@ -365,11 +382,11 @@ unsigned char ubloxPublish(void) {
 
         // velocity update
         ret = 2;
-    }
-    else if (ubloxData.class == UBLOX_TIM_CLASS && ubloxData.id == UBLOX_TIM_TP) {
+      }
+      else if (ubloxData.class == UBLOX_TIM_CLASS && ubloxData.id == UBLOX_TIM_TP) {
         gpsData.lastReceivedTPtowMS = ubloxData.payload.tp.towMS;
-    }
-    else if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_DOP) {
+      }
+      else if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_DOP) {
         gpsData.pDOP = ubloxData.payload.dop.pDOP * 0.01f;
         gpsData.hDOP = ubloxData.payload.dop.hDOP * 0.01f;
         gpsData.vDOP = ubloxData.payload.dop.vDOP * 0.01f;
@@ -377,8 +394,8 @@ unsigned char ubloxPublish(void) {
         gpsData.nDOP = ubloxData.payload.dop.nDOP * 0.01f;
         gpsData.eDOP = ubloxData.payload.dop.eDOP * 0.01f;
         gpsData.gDOP = ubloxData.payload.dop.gDOP * 0.01f;
-    }
-
+      }
+    } // end of channel
     // end of high priority section
     CoSetPriority(gpsData.gpsTask, GPS_PRIORITY);
 

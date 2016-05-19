@@ -171,6 +171,9 @@
 \usepackage{todonotes}
 
 
+% --- Tables ---- %
+\usepackage{tabularx}
+
 %---------- URL ----------%
 \usepackage{hyperref} % clickable references
 \hypersetup{
@@ -198,48 +201,56 @@
 \begin{document}
 
 % --------- Title Page, Front Page --------- %
-\setcounter{page}{1}
-\pagenumbering{Alph}
-
 \input{frontpage}
+\newpage
 
-%\input{preface}
+
+\input{titelpage}
+
 
 
 
 % --------- Front Matter --------- %
-\setcounter{page}{1} % Start counter at 1
-\pagenumbering{roman}
-
+%--------- Not used in final version -------%
 \listoftodos
-    \setcounter{tocdepth}{2}
+%--------- Not used in final version -------%
 
+\setcounter{tocdepth}{4}
+\pagenumbering{roman}    
+\setcounter{page}{2}
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 \input{abstract}
 \newpage
-\chapter*{Preface}
-\input{preface}
 
-\newpage
-\renewcommand\contentsname{Table of Contents}
-\tableofcontents
-%\addtocontents{toc}{\vskip-70pt}
+\chapter*{Resumé}
+\addcontentsline{toc}{chapter}{Resumé}
+\input{resume}
 \newpage
 
 \chapter*{Reading Guide}
 \addcontentsline{toc}{chapter}{Reading Guide}
 \input{reading_guide}
 
+\chapter*{List of Abbreviations}
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+\input{list_of_abbreviations}
+
+\newpage
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+\input{preface}
+\renewcommand\contentsname{Table of Contents}
+\tableofcontents
+%\addtocontents{toc}{\vskip-70pt}
+\newpage
+
+
+
 
 % --------- Main Matter --------- %
 \setcounter{page}{1} % Start counter at 1
 \pagenumbering{arabic}
-%\chapter{Reading Guide}
-%\input{reading_guide}
-
-\chapter{List of Abbreviations}
-\input{list_of_abbreviations}
 
 \chapter{Introduction}\label{chp:Intro}
 \input{introduction}
@@ -247,18 +258,8 @@
 \chapter{Materials and methods}
 \input{materials_and_methods}
 
-\chapter{Leader-followers}\label{chp:Hardware}
-\input{leader-followers}
-
-\chapter{Implementation}
-\input{implementation}
-
-\chapter{Test Descriptions}
-\Mathias{Maybe a chapter called "Test Descriptions here"}
-%\input{test_descriptions}
-
 \chapter{Results}\label{chp:Hardware}
-\input{results}
+\input{results} 
 
 \chapter{Discussion}\label{chp:Hardware}
 \input{discussion}
@@ -266,9 +267,6 @@
 \chapter{Conclusion}\label{chp:Hardware}
 \input{conclusion}
 
-
-\chapter{Future work}\label{chp:Hardware}
-\input{future_work}
 
 % --------- End Matter --------- %
 
@@ -279,7 +277,7 @@
 \newpage
 \listoftables
 %\endgroup
-
+\printbibliography
 \begin{appendices}
 \makeatletter
 \addtocontents{toc}{\let\protect\l@chapter\protect\l@section}
@@ -289,6 +287,11 @@
 \makeatother
 \addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % Exclude everthing from \section and downwards from ToC
 \captionsetup{list=no} % Exclude all figures and tables from LoF and LoT
+
+
+%\bibliographystyle{ieeetr}
+%\bibliography{bibliography}
+
 
 % Chapter 2 Hardware:
 % Chapter 3 Vision:
@@ -308,9 +311,4 @@
 
 \end{appendices}
 \input{appendices}
-
-%\bibliographystyle{siam}
-%\bibliography{bibliography}
-\printbibliography
-
 \end{document}

@@ -6,3 +6,5 @@
 *.xml
 *.gz
 *.toc
+*.tdo
+*.dvi

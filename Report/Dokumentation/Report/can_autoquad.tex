@@ -1,20 +1,10 @@
-\subsection{Introduction}
-In order to spoof the onboard GPS, the CAN-bus was chosen as input to AQ. 
-The CAN-bus is already implemented and widely used on a ViaCopter drone to communicate between AQ and hardware like ESCs, PDB etc. Much time was spend reading through the source code and trying to figure out how the protocol works.
-The developers behind AQ says, that the code is the documentation and thereby have not written any real documentation. \\
-Figuring out how it works was done using debugging utilities such as breakpoints and looking at the content of the different memory locations in CrossWorks.\\
-More debugging tricks can be seen in appendix \ref{app:debugging}. 
-To further investigate the protocol a PEAK-CAN adapter were connected to a Ladybird drone and several python scripts were developed to send and receive messages from AQ. \\
-The author did not go into details about messages used between AQ $\leftrightarrow$ ESC's and AQ $\leftrightarrow$ OSD.\\
-
-
-\subsection{CAN Protocol description}
+\subsubsection{CAN Protocol description}
 A Peak-CAN adapter were used throughout the project. It supports High-speed ISO 11898-2\footnote{\url{http://www.peak-system.com/PCAN-USB.199.0.html?&L=1}} which is a standard that states the properties of physical layer. 
 Its max speed is 1 mbit which is the speed AQ uses to communicate on the CAN-bus. 
 AQ uses CAN 2.0B which has 29 identifier bits.
 AQ is not using an existing protocol on top of ISO 11898-2. The developers created their own to suit their needs.\\
 
-\subsubsection{Identifier bits}
+\subsubsection*{Identifier bits}
 A Generic look at a AQ CAN messages can be seen in table \ref{tab:can_identifier_bits}.
 The normal function of the identifier bits is the priority of the messages.
 A CAN controller can then be setup to only allow certain messages to be processed depending on their identifier bits.
@@ -60,7 +50,7 @@ abbreviations used in table \ref{tab:can_identifier_bits}}
 
 Each of the elements in an AQ messages will be explained how they are used in AQ. \\
 
-\subsubsection{Logic Communication Channel}
+\subsubsection*{Logic Communication Channel}
 LCC is the priority of the message. 
 To understand how LCC works, one needs to look into CAN arbitration.
 As stated in ISO-11898-2, a 0 is the dominant bit and a 1 is the recessive bit.
@@ -97,7 +87,7 @@ INFO          & 0011           & 3                 \\ \hline
 \end{tabular}
 \end{table}
 
-\subsubsection{Target Type}
+\subsubsection*{Target Type}
 Target type can either be “node” or “group” depending on if the receiver(s) is one or more nodes. 
 \begin{lstlisting}[language = c, caption = Target type defined in AQ, label=code:target_types]
 #define CAN_TT_GROUP        ((uint32_t)0x0<<29)
@@ -105,7 +95,7 @@ Target type can either be “node” or “group” depending on if the receiver
 \end{lstlisting}
 The GROUP is used when AQ sends its reset-msg upon startup.\\
 When the authors node sends a sensor-measure to AQ it will be of type CAN\_TT\_NODE.
-\subsubsection{Function ID}
+\subsubsection*{Function ID}
 
 Function ID describes the function of the CAN message. If it is a PING, ACK, NACK, etc.
 It simply states the function of packet so the receiver node knows what to do with the message.
@@ -120,8 +110,10 @@ Different types of functions can be seen in code \ref{code:function_defines}
 
 Table \ref{tab:fid_descriptions} describes the FIDs shown in listing \ref{code:function_defines}. \\
 
+\Mathias{Dette er forkert, eftersom alle defines er taget fra AQ's can.h så der passer det..}
 If a message is if FID CAN\_FID\_CMD, the Data Object code will be used as the command.\\
-It should be noted from code \ref{code:function_defines} that the FID's is moved 25 positions to the left but FID is shown in table \ref{tab:can_identifier_bits} is at bits 22:25. The offset of three bits is due to the way ARM's CAN registers is implemented. The three initial bits in the CAN\_TIxR (register that keeps the received CAN message) \footnote{\url{http://www2.st.com/content/ccc/resource/technical/document/reference\_manual/59/b9/ba/7f/11/af/43/d5/CD00171190.pdf/files/CD00171190.pdf/jcr:content/translations/en.CD00171190.pdf:688}} register is general information about the CAN messages like whether it is extended (Part B.0) or not.
+It should be noted from code \ref{code:function_defines} that the FID's is moved 25 positions to the left but FID is shown in table \ref{tab:can_identifier_bits} is at bits 22:25. 
+The offset of three bits is due to the way ARM's CAN registers is implemented. The three initial bits in CAN\_TIxR and CAN\_RIxR (registers used to transmit and receive respectively) \footnote{\url{http://www2.st.com/content/ccc/resource/technical/document/reference_manual/59/b9/ba/7f/11/af/43/d5/CD00171190.pdf/files/CD00171190.pdf/jcr:content/translations/en.CD00171190.pdf:688}} registers are general information about the CAN messages like whether it is extended (Part B.0) or not.
 \begin{table}[H]
 \centering
 \caption{Descriptions of the FIDs mentioned in code \ref{code:function_defines}}
@@ -140,7 +132,7 @@ CAN\_FID\_GRANT\_ADDR & Messaged sent by AQ when it registers a node as a node o
 
 Table \ref{tab:fid_descriptions} shows a description of the 4 FIDs used when a node is registered. 
 
-\subsubsection{Data Object Code}
+\subsubsection*{Data Object Code}
 Data Object code is used as a parameter to the FID. Data Object Code can have different values depending on the fid. Code \ref{code:doc_useage} shows a function using DOC when message FID is CAN\_FID\_CMD.
 
 \begin{lstlisting}[language = c, caption = Snippet of AQ's can.c:365, label=code:doc_useage]
@@ -162,21 +154,21 @@ void canProcessCmd(... ,uint8_t doc, ...) {
 In section \ref{sec:reg_aq_node} DOC is used by the author to tell which part of the GPS data is getting sent but where FID is CAN\_FID\_TELEM.
 \Mathias{Fixe ref til section om GPS spoof}
 
-\subsubsection{Source/Target/Network ID}
+\subsubsection*{Source/Target/Network ID}
 When referred to source/target ID but without respect to either sender or receiver but just a CAN-node, then it is referred to as NetworkId. When a node registers itself in AQ, it gets assigned a NetworkId.
 
-\subsubsection{Sequence ID}
+\subsubsection*{Sequence ID}
 The sequence id is incremented on transmission of each message. It is used when eg. 
 A CAN-node sends a reply to a get-message, it is then including the sequence id of the get-message so AQ knows what it receives a reply for.
 
-\subsubsection{Data bits}
+\subsubsection*{Data bits}
 The data bytes does not have a general definition, it depends on the function id. With some FIDs the data field may contain additional parameters.\\ \\
 Eg. When FID is CAN\_FID\_REQ\_ADDR, data has the fields shown in table \ref{tab:packet_from_node}
 \begin{table}[H]
 \centering
 \caption{Packet sent from node when registering in AQ}
 \label{tab:packet_from_node}
-\begin{tabularx}{0.9\textwidth}{@{}|X|X|X|X|X|X|X|X|@{}}
+\begin{tabularx}{0.92\textwidth}{@{}|X|X|X|X|X|X|X|X|@{}}
 \toprule
 \multicolumn{8}{|c|}{64 bits}                           \\ \midrule
 0 & 0 & CanId & CanType & UUID3 & UUID2 & UUID1 & UUID0 \\
@@ -213,7 +205,7 @@ canData.uuid = XXH32((void *)CAN_UUID, 3*4, 0);
   {#3};
 }
 
-\subsection{Registering a node in AQ}\label{sec:reg_aq_node}
+\subsubsection*{Registering a node in AQ}\label{sec:reg_aq_node}
 
 When the AQ is starting up, it is transmitting a CAN\_FID\_RESET\_BUS to the bus.
 When each CAN-node receives the messages, they send out a CAN\_FID\_REQ\_ADDR message in order to get registered as a node in AQ.
@@ -258,21 +250,106 @@ CAN\_CMD\_TELEM\_RATE is the requested telemtry rate from AQ. Default is 10 hz \
 A timeout timer is started when each message has been sent. 
 If an ACK is not received after each message within 250 ms \footnote{https://github.com/bn999/autoquad/blob/master/onboard/can.h:71} a timeout counter is incremented. At the time of writing this information is not used but might be later on.\\
 
+Code in \ref{code:aq_req_extend_time} shows a snippet\footnote{\url{https://github.com/bn999/autoquad/blob/master/onboard/can.c:547}} from AQ where AQ waits for nodes to request an address.
+
+\begin{lstlisting}[language = c, caption = Snippet showing AQ waits for devices, label=code:aq_req_extend_time]
+canResetBus();
+
+// wait 100ms for nodes to report in
+micros = timerMicros() + 100000;
+while (timerMicros() < micros)
+    // extend wait period if more nodes found
+    if (canCheckMessage(0))
+        micros = timerMicros() + 100000;
+\end{lstlisting}
+
+AQ waits default 100 ms for nodes to request an address. If canProcessMessage() returns true a node tried to register and the registration period is extended 100 ms.
+ 
+\subsubsection*{Registering node test} \label{sec:reg_node_test}
+Implementation of a CAN-node running on a PC was initially done in python. The python module \textit{SocketCan} \footnote{\url{http://python-can.readthedocs.io/en/latest/socketcan_native.html}} supports PeakCAN adapter out of the box.\\
+
+Code \ref{code:python_reg_node} shows a snippet of main.py.
+
+\begin{lstlisting}[language = python, caption = Snippet showing AQ registration from python, label=code:python_reg_node]
+# Create autoquad handle
+autoquadNode = AutoQuadNode('can1', 'socketcan')
+
+# Wait for reset msg transmitted by AQ.
+autoquadNode.WaitForReset(timeout=1000);
+print "Recevied readymsg"
+
+# Register node, CanType as sensor and CanID as PDB ampere
+msg = autoquadNode.RegisterNode(CAN_TYPE_SENSOR, CAN_SENSORS_PDB_BATA)
+
+# Wait for telemetryTryValue
+msg = autoquadNode.recv()
+# Parse message
+msg = CanMessage(msg)
+
+# Print all values received, _str__(self) overwrited
+print msg
+
+# ACK TelemValue
+autoquadNode.AnswerRequestTelemValue(msg)
+
+# Wait for telemetryRate
+msg = autoquadNode.recv()
+
+# Parse message
+msg = CanMessage(msg)
+
+# ACK TelemRate
+autoquadNode.AnswerRequestTelemRate(msg)
+\end{lstlisting}
+
+When a node has successfully registered, it is shown in QgroundStation as shown in figure \ref{fig:successful_register}.
+It can be seen 4 motors were connected to the CAN bus, but also that the spoofed sensor was registered.
+
+\begin{figure}[H]
+    \center
+    \includegraphics[width=0.5\textwidth]{graphics/test_register_node.png}
+    \caption{Successful SENSOR registration}
+    \label{fig:successful_register}
+\end{figure}
+
+\subsubsection*{Spoofed current test}
+When an AQ PDB is mounted on a drone, the PDB measures voltage, current and temperature and sends the measurements to AQ where they get logged.\\
+The code in section \ref{sec:reg_node_test} was further developed into a sensor simulator that spoofs current measurements into AQ to test the registering works probably. \\
+A logger extension-board was mounted on the M4-board in order to save the measurements to a MicroSD-card.
+
+Code \ref{code:spoof_current} shows the implementation where a sinus is generated to simulate a current and how it is transmitted to AQ. \footcite{someguy2993}
+
+\begin{lstlisting}[language = python, caption = Snippet spoofing current measurements into AQ, label=code:spoof_current]
+def ReqistrerTelem(self):
+	# self.sinus is a list of sinus values
+	sensor_value = self.sinus[self.phase]
+
+	# Get next value next time and do overrun
+	self.phase+=1
+	self.phase = self.phase % 20
+
+	# Pack as IEEE754 float
+	sensor_value_float = pack('>f', sensor_value)
+
+	# Create list of float-bytes as integers
+	data_float = [int(ord(elm)) for elm in sensor_value_float]
+
+	# Reverse list and append empty data
+	data_float.reverse()
+	
+	# Send to AQ. id =  CAN_FID_TELEM (02c00000) | Sourceid 1 (00000800) | CAN_SENSORS_PDB_BATA (00004000)
+	self.send(0x02c04800, data_float)
+\end{lstlisting}
+
+The method defined in code \ref{code:spoof_current} was run every 100ms.\\
+After the code ran for a few seconds the SD card was plugged into a PC and QgroundStation configured to make a plot of the PDB\_CURRENT-field. The plot can be seen in figure \ref{fig:pdb_current_log} 
 
 
-\Mathias{Test of sending sensor data}
 \begin{figure}[H]
     \center
     \includegraphics[width=0.8\textwidth]{graphics/test_can_spoof_current.png}
     \caption{Test of python CAN test}
-    \label{fig:PCB_block}
+    \label{fig:pdb_current_log}
 \end{figure}
 
-
-\subsection{Registering node test}
-\begin{figure}[H]
-    \center
-    \includegraphics[width=0.5\textwidth]{graphics/test_register_node.png}
-    \caption{Test of python CAN test}
-    \label{fig:PCB_block}
-\end{figure}
+Figure \ref{fig:pdb_current_log} shows the sinus generated from the node as expected.

@@ -21,6 +21,7 @@
 #include "comm.h"
 #include "nav_ukf.h"
 #include "imu.h"
+#include "radio.h"
 #include "gps.h"
 #include "nav.h"
 #include "control.h"
@@ -47,9 +48,9 @@ void runTaskCode(void *unused) {
     uint32_t loops = 0;
 
     AQ_NOTICE("Run task started\n");
-
+    int cnt = 0;
     while (1) {
-	// wait for data
+ // wait for data
 	CoWaitForSingleFlag(imuData.sensorFlag, 0);
 
 	// soft start GPS accuracy
@@ -108,9 +109,14 @@ void runTaskCode(void *unused) {
 	}
 
         // If GPS data available from CAN
-        else if(CoAcceptSingleFlag(gpsData.gpsPosFromCanFlag) == E_OK){
+        else if(CoAcceptSingleFlag(gpsData.gpsPosFromCanFlag) == E_OK && navUkfData.flowQuality == 0.0f && gpsData.hAcc < NAV_MIN_GPS_ACC){
             navUkfGpsPosUpdate(gpsData.lastPosUpdate, gpsData.lat, gpsData.lon, gpsData.height, gpsData.hAcc + runData.accMask, gpsData.vAcc + runData.accMask);
 	    CoClearFlag(gpsData.gpsPosFromCanFlag);
+
+            if (gpsData.hAcc < runData.bestHacc && gpsData.hAcc < NAV_MIN_GPS_ACC) {
+                navPressureAdjust(gpsData.height);
+		runData.bestHacc = gpsData.hAcc;
+	    }
         }
 	// only accept GPS updates if there is no optical flow
 	/*

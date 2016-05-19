@@ -18,49 +18,95 @@
 
 #include "canSensors.h"
 #include "aq_timer.h"
+#include "radio.h"
 #include <CoOS.h>
 #include "gps.h"
+#include "comm.h" /* AQ_PRINTF() */
+#include <stdio.h>
+#include "util.h"
+#include "config.h"
+#include <string.h>
+
+#define CAN_DOC_LAT 0x01
+#define CAN_DOC_LON 0x02
+#define CAN_DOC_DOP 0x03
+#define CAN_DOC_ACC 0x04
+#define CAN_DOC_ALT 0x05
+
+
 canSensorsStruct_t canSensorsData;
 
 void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
-
-    double data_double;
-    memcpy(&data_double,data,8);
-
     // Mathias
-    if(canId == CAN_SENSORS_GPS_LAT){
-      switch(doc){
-      case 0x01:
-        gpsData.lat = data_double;
-        debug_printf("got lat\t");
-        break;
-       case 0x02:
-        gpsData.lon = data_double;
-        debug_printf("lon\t");
-        break;
-       case 0x03:
-        gpsData.lastPosUpdate = timerMicros();
-        gpsData.height = data_double;
-        gpsData.hAcc = 0;
-        gpsData.vAcc = 0;
-        debug_printf("height\n");
-        CoSetFlag(gpsData.gpsPosFromCanFlag);
-        break;
-      }
-    }
-    /*
-            gpsData.lastPosUpdate = timerMicros();
-        gpsData.lat = *(float *)(data+4);
-        gpsData.lon = *(float *)(data); // Add 4 because void is 1 byte, and we want next 4 bytes.
-        gpsData.height = 30;
-        gpsData.hAcc = 0;
-        gpsData.vAcc = 0;
-        CoSetFlag(gpsData.gpsPosFromCanFlag);
-        debug_printf("DOC: %X\n", doc);
-    */
-    // End Mathias
-    canSensorsData.values[canId] = *(float *)data;
+    // Check if switch is 0 (+-100 is limit)
 
+    int16_t chan = radioData.channels[(int)(p[RADIO_AUX4_CH]-1)];
+    if(canId == CAN_SENSORS_CAN_GPS ){
+      if(chan > -100 || chan < 100){
+        double data_double;
+        memcpy(&data_double,data,8);
+        switch(doc){
+        case CAN_DOC_LAT:
+          gpsData.lat = data_double;
+          break;
+        case CAN_DOC_LON:
+          gpsData.lon = data_double;
+          break;
+        case CAN_DOC_DOP:
+        {
+          uint8_t* data_int = (uint8_t * ) data;
+
+          gpsData.pDOP = ((float)data_int[0])/10;
+          gpsData.hDOP = ((float)data_int[1])/10;
+          gpsData.vDOP = ((float)data_int[2])/10;
+          gpsData.tDOP = ((float)data_int[3])/10;
+          gpsData.nDOP = ((float)data_int[4])/10;
+          gpsData.eDOP = ((float)data_int[5])/10;
+          gpsData.gDOP = ((float)data_int[6])/10;
+        }
+        break;
+        case CAN_DOC_ACC:
+        {
+          uint8_t* data_int = (uint8_t * ) data;
+          // Satellites
+          gpsData.satellites = data_int[0];
+          // GPS fix
+          gpsData.fix = data_int[1];
+          // Speed accuracy
+          gpsData.sAcc = ((float)data_int[2])/10;
+          // Course accuracy
+          gpsData.cAcc = ((float)data_int[3])/10;
+          // Horizontal accuracy
+          gpsData.hAcc = ((float)data_int[4])/10;
+          // Vertical accuracy
+          gpsData.vAcc = ((float)data_int[5])/10;
+        }
+        break;
+        case CAN_DOC_ALT:
+          gpsData.lastPosUpdate = timerMicros();
+          gpsData.height = data_double;
+          if(gpsData.fix == 1){
+            if(gpsData.hDOP < 3){
+                if(gpsData.satellites >= 5){
+                  AQ_PRINTF("Recv. Valid GPGGA\n", 0);
+                } else {
+                  AQ_PRINTF("Satellites: %f \n", gpsData.satellites);
+                }
+            } else {
+              AQ_PRINTF("hDOP: %f\n", (double)gpsData.hDOP);
+             }
+          } else {
+            AQ_PRINTF("Fix: %f\n", gpsData.fix);
+          }
+          CoSetFlag(gpsData.gpsPosFromCanFlag);
+        break;
+      } // End switch
+     }  // End switch-check
+    } // end canID check
+    else {
+      // Else just save the value
+      canSensorsData.values[canId] = *(float *)data;
+    }
     // record reception time
     canSensorsData.rcvTimes[canId] = timerMicros();
 }

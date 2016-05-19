@@ -34,8 +34,7 @@ enum {
     CAN_SENSORS_GIMBAL_GYOX,
     CAN_SENSORS_GIMBAL_GYOY,
     CAN_SENSORS_GIMBAL_GYOZ,
-    CAN_SENSORS_GPS_LAT, // Added by Mathias 08.02.15
-    CAN_SENSORS_GPS_LON, // Added by Mathias 08.02.15
+    CAN_SENSORS_CAN_GPS, // Added by Mathias 08.02.15
     CAN_SENSORS_NUM
 };
 

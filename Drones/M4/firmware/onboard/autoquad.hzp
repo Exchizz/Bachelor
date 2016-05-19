@@ -291,6 +291,8 @@
     <configuration Name="Debug" c_preprocessor_definitions="USE_FULL_ASSERT" gcc_optimization_level="Level 1"/>
     <folder Name="STM STD Periph Drivers" exclude="stm32f4xx_fmc.c" filter="*.c;*.h" path="../STM32F4xx_DSP_StdPeriph_Lib_V1.3.0/Libraries/STM32F4xx_StdPeriph_Driver/" recurse="Yes"/>
     <folder Name="CMSIS DSP_Lib" exclude="" filter="*.c;*.h" path="../STM32F4xx_DSP_StdPeriph_Lib_V1.3.0/Libraries/CMSIS/DSP_Lib/Source" recurse="Yes"/>
+    <file file_name="quatos.a"/>
+    <configuration Name="THUMB Debug" linker_printf_fp_enabled="Yes"/>
   </project>
   <configuration Name="THUMB Debug" inherited_configurations="THUMB;Debug"/>
   <configuration Name="THUMB" Platform="ARM" arm_instruction_set="THUMB" arm_library_instruction_set="THUMB" c_preprocessor_definitions="__THUMB" hidden="Yes"/>

@@ -27,7 +27,7 @@
 #define USE_MAVLINK
 #define USE_PRES_ALT		 	// uncomment to use pressure altitude instead of GPS
 #define USE_SIGNALING                   // uncomment to use external signaling events and ports
-//#define USE_QUATOS
+#define USE_QUATOS
 //#define USE_EXTERNAL_ESC              // uncomment to use external ESCs on board version 8
 
 #ifndef BOARD_VERSION

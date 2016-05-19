@@ -1,14 +1,79 @@
-Drones are more and more used in different applications in different areas because they make it relatively easy to get a quick or more in depth overview of a situation. A less positive thing of the drones is the amount of energy they are capable of carrying. A drone designed with long time-flight flying in mind is capable of flying approximately 20 minutes depending on weather and payload. If the drone is equipped with a heavy camera or other kind of payload, then the flight time starts to decrease rapidly. So far the solution has been to increase the size of the drones to mount bigger batteries, but this might not be right way of doing it. Drones become less efficient, less responsive and gets more dangerous due to increase in weight.
+\textit{This chapter will give the reader background information about UAVs and point out a problem SDU is currently facing in two ongoing projects. Further more it will describe the focus of this project and how others have managed to solve it.}
 
-By looking at the nature, one can easily see how small animals like ants and birds manage to cooperate and thereby build or move bigger things that they would not be able to do on their own. This way of small independent, decentralized units working together is called a swarm.\\
+\subsection*{Background}
+UAS is an emerging\footcite{gupta2013review} technology used in lots of different areas. They are used in military purposes since UAVs are better suited for dull, dirty, or dangerous missions than manned aircraft. They are also widely used commercially to provide images of fields, power lines, pipelines \footnote{\url{https://en.wikipedia.org/wiki/Unmanned\_aerial\_vehicle\#Civil}} and so forth.\\
+Since UAVs, especially multiroters or quadcopters, have become less expensive to produce, a marked for civilians and hobbyists has emerged. At the moment of writing, SDU is developing \footnote{\url{http://videnskab.dk/teknologi/droner-skal-have-elektronisk-nummerplade}} a registration plate, so that it is possible to see where drones are flying and who to be held responsible when accidents occur.
 
-By making drones smaller, they get more efficient, their flight time increase and they get cheaper but of the cost of their ability to lift. Therefore it seems like an idea to make small drones cooperate to solve more complex tasks.\\
+\textcolor{blue}{A challenge concerning multiroters and especially multiroters is the amount of energy they are capable of carrying. A drone designed with long flytime in mind is capable of flying approximately 20 minutes depending on weather and payload. If the drone is equipped with a heavy camera or other kind of payload, then the flight time begins to decrease rapidly. So far the solution has been to increase the size of the drones to mount bigger batteries, but this might not be right way of doing it. Drones become less efficient, less responsive and gets more dangerous due to increase in weight.\\
+By looking at the nature, one can see how small animals like ants and birds manage to cooperate and thereby build or move bigger things that they would not be able to do on their own. This way of small independent, decentralized units working together is called a swarm\footnote{\url{https://en.wikipedia.org/wiki/Swarm\_intelligence}}.\\
+By making UAVs smaller, they get more efficient, their flight time increase and they get cheaper but of the cost of their ability to lift\footcite{1_kumar_2016}. Therefore it seems like an idea to make small drones cooperate to solve more complex tasks.} \\
 
-SDU is currently using a platform called AutoQuad which is supported by large and small drones. Solving a task as a swarm is complex, and is not in the scope of this project. This project intend to implement a Leader-follower principle inspired by birds flocking behaviour. The leader-drone will have a preprogrammed flight path and the follower-drones will have no knowledge about the flightpath. Each follow-drone will try to keep a distance of 50 cm within plus minus 10 cm to its neighbours and the leader-drone. A computer program will be written to control each drone and tell them where to go without colliding. This will be developed in an indoor controlled environment. Since GPS is unavailable indoor, this project will be using vision, e.g. Henrik Midtiby's MarkerLocator to get the location of each drone. When the Follow-leader has been implemented it should in theory work outside as well, though with larger distances due to GPS inaccuracy.
+Many different flight pilots exists on the marked. SDU UAS has decided to use AutoQuad since the code is Open Source \footnote{Quatos, which is their control algorithm is not Open Source.} and the multiroters show reliable and steady flying. An AutoQuad multiroter delivered by ViaCopter\footnote{\url{https://viacopter.eu/}} comes with with the AutoQuad flight controller M4, Electronic Speed Controllers \footnote{Number depends of rotors on UAV} ESC32 and rotors. ViaCopter smallest drone is delivered without Electronic Speed Controllers since H-bridges are build into the M4 flight pilot.
+ViaCopter delivers drones in different sizes but their flight controller is the same. This means that code developed for ViaCopters Ladybird can be deployed on a large drone and it will continue to work\footnote{Assumed the developer did not break important lowlevel tasks}
 
-\subsection{Related Work}
-\input{related_work}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{graphics/M4_demo}
+        \caption{M4 flight pilot}
+        \label{fig:gull}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{graphics/ladybird}
+        \caption{Ladybird with mounted M4}
+        \label{fig:tiger}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{graphics/eduquad.jpg}
+        \caption{Eduquad with M4 + ESC32}
+        \label{fig:mouse}
+    \end{subfigure}
+    \caption{Pictures of AutoQuad hardware}\label{fig:AQ_hw}
+\end{figure} 
+
+At the time of writing, SDU is collaborating with HCA airport to find anomalies in fences.\\ 
+\textit{Airports are burdened by a number of required inspection tasks to maintain a high level of 
+safety and security.
+Some of these tasks may advantageously be performed by a drone rather than the current manual labour, and this will save significant resources.
+In this project they are targeting a specific need for frequent inspection of the fence surrounding the airport shown in figure \ref{fig:hca_fence}. 
+The inspection concerns fence holes or similar anomalies. We hypothesize that a drone is 
+capable of unsupervised autonomous inspecting the airport fence detecting small holes down 
+to a radius of 5 cm.} \footnote{Application sent to Energi Fyns Udviklingsfond which has been granted, Ansøgning 2015-01-30 Energi Fyns Udviklingsfond-1.pdf on USB}
+
+\begin{figure}[H]
+    \centering
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{graphics/hca_fence.png}
+        \caption{Part of the fence surrounding HCA Airport.}
+        \label{fig:hca_fence}
+    \end{subfigure}
+        ~  %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{graphics/organicdrone.png}
+        \caption{Drone spreading ladybirds and gall midges}
+        \label{fig:organicdrone}
+    \end{subfigure}
+   \label{fig:sdu_projects}
+\end{figure}
+In order to avoid flying into the fence and to fly accurate enough for the camera to film, it is required to use an RTK GPS\footcite{2_gakstatter_2014}.
+
+In another project, SDU is working together with a company, Ecobotix, to avoid the need of pesticides in organic crops. Pesticides are used to kill pests from the crows. When using pesticides a health risks exists for those who eat the crops. The use of pesticides also reduce the amount of diversity in nature since it is also killing beneficial organisms and potentially harm other animals in the food chain like birds. If nothing is used the crops might die, and that is very expensive to the farmer. \footnote{\url{http://naturerhverv.dk/tvaergaaende/gudp/gudp-projekter/2015/oekodrone-skal-sprede-mariehoens-i-stedet-for-pesticider/} last visited 18-04-2016}\\
+SDU and Ecobix use drones to spread bugs like ladybirds and gall midges, over the crops to eat pests as shown in fugure \ref{fig:organicdrone}. \\
+It is required the drones fly approximately 1 meter above ground at 1.5 meter/sec. It is therefore necessary to use an RTK-GPS in order to avoid hitting the ground in case of pumps in the fields. \footnote{Jensen, K.; Larsen, R.; Laursen M.S.; Neerup, M.M.; Skriver, M. and Jørgensen, R.N. Towards UAV contour flight over agricultural fields using RTK-GNSS and a Digital Height Model. Accepted for oral presentation at CIGR-AgEng June 2016.}\\
+Both projects tends to use AutoQaud to solve their tasks. The AutoQuad version available at the moment of writing only supports autonomous flying using its onboard GPS. This project extends AutoQuads functionality by making it support global positioning from an RTK-GPS. 
+
+\newpage
 \subsection{Problem Statement}
 \input{problem_statement}
+\subsection{Related Work}
+\input{related_work}
 \subsection{Hypothesis}
 \input{hypothesis}
+\subsection{Aim of project}
+\input{aim_of_project}

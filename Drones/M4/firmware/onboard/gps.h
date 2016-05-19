@@ -71,6 +71,11 @@ typedef struct {
     float eDOP;
     float gDOP;
 
+    //Used in CAN spoof
+    uint8_t fix;
+    uint8_t satellites;
+    int out_cnt;
+
     unsigned long TPtowMS;    // timepulse time of week (ms)
     unsigned long lastReceivedTPtowMS;
 

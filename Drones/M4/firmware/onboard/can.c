@@ -327,6 +327,7 @@ void canCommandPos(uint8_t tid, float angle) {
 }
 
 static void canResetBus(void) {
+    //debug_printf("Sending reset msg to canbus\n");
     canSend(CAN_LCC_EXCEPTION | CAN_TT_GROUP | CAN_FID_RESET_BUS, 0, 0, 0);
 }
 
@@ -545,7 +546,7 @@ void canInit(void) {
     CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 0;
     CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;
     CAN_FilterInit(&CAN_FilterInitStructure);
-
+  //debug_printf("reset bus\n");
     canResetBus();
 
     // wait 100ms for nodes to report in

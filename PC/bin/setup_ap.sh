@@ -3,8 +3,8 @@
 action=$1
 
 
-
 do_start () {
+
 	echo -n -e "Starting DHCP server on wlan_ap : \n\t";
 	sudo service isc-dhcp-server start
 	echo -n -e "Starting hostapd on wlan_ap : \n\t";
