@@ -31,7 +31,8 @@
 #define CAN_DOC_LON 0x02
 #define CAN_DOC_DOP 0x03
 #define CAN_DOC_ACC 0x04
-#define CAN_DOC_ALT 0x05
+#define CAN_DOC_VEL 0x05
+#define CAN_DOC_ALT 0x06
 
 
 canSensorsStruct_t canSensorsData;
@@ -42,7 +43,7 @@ void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
 
     int16_t chan = radioData.channels[(int)(p[RADIO_AUX4_CH]-1)];
     if(canId == CAN_SENSORS_CAN_GPS ){
-      if(chan > -100 || chan < 100){
+      if(chan > -100 && chan < 100){
         double data_double;
         memcpy(&data_double,data,8);
         switch(doc){
@@ -80,15 +81,31 @@ void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
           gpsData.hAcc = ((float)data_int[4])/10;
           // Vertical accuracy
           gpsData.vAcc = ((float)data_int[5])/10;
+          // Heading
+          uint16_t * tmp = (uint16_t * )data;
+          gpsData.heading = ((float)tmp[3])/100;
+        }
+        break;
+        case CAN_DOC_VEL:
+        {
+          int16_t* data_int = (int16_t * ) data;
+          // Satellites
+          gpsData.velN  = ((float)data_int[0])/100;  //  m/s
+          gpsData.velE  = ((float)data_int[1])/100;  //  m/s
+          gpsData.velD  = ((float)data_int[2])/100;  //  m/s
+          gpsData.speed = ((float)data_int[3])/100;  //  m/s
         }
         break;
         case CAN_DOC_ALT:
-          gpsData.lastPosUpdate = timerMicros();
           gpsData.height = data_double;
           if(gpsData.fix == 1){
             if(gpsData.hDOP < 3){
                 if(gpsData.satellites >= 5){
-                  AQ_PRINTF("Recv. Valid GPGGA\n", 0);
+                  //AQ_PRINTF("Recv. Valid GPGGA\n", 0);
+                    gpsData.lastPosUpdate = timerMicros();
+                    gpsData.lastVelUpdate = timerMicros();
+                    CoSetFlag(gpsData.gpsPosFlag);
+                    CoSetFlag(gpsData.gpsVelFlag);
                 } else {
                   AQ_PRINTF("Satellites: %f \n", gpsData.satellites);
                 }
@@ -97,8 +114,7 @@ void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
              }
           } else {
             AQ_PRINTF("Fix: %f\n", gpsData.fix);
-          }
-          CoSetFlag(gpsData.gpsPosFromCanFlag);
+          }     
         break;
       } // End switch
      }  // End switch-check

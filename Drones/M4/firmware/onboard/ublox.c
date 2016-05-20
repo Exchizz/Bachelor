@@ -326,7 +326,7 @@ unsigned char ubloxPublish(void) {
 
     int16_t chan_aux5 = radioData.channels[(int)(p[RADIO_AUX4_CH]-1)]; 
     uint8_t onboard_gps = 1;
-    if(chan_aux5 < 100 || chan_aux5 > -100){
+    if(chan_aux5 < 100 && chan_aux5 > -100){
       onboard_gps = 0;
     }
 
