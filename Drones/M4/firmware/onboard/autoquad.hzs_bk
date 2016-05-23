@@ -1,0 +1,72 @@
+<!DOCTYPE CrossStudio_for_ARM_Session_File>
+<session>
+ <Bookmarks>
+  <BookmarkItem column="-1" line="430" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="3" extra="debug_printf(&quot;Sending uniq address\n&quot;);" name="unnamed" color="5" />
+  <BookmarkItem column="-1" line="359" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="1" extra="//debug_printf(&quot;Sending canSetTelemetryValue\n&quot;);" name="unnamed" color="5" />
+  <BookmarkItem column="-1" line="377" path="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" number="2" extra="debug_printf(&quot;Sending canSetTelemetryRate\n&quot;);" name="unnamed" color="5" />
+ </Bookmarks>
+ <Breakpoints/>
+ <ExecutionProfileWindow/>
+ <Memory1>
+  <MemoryWindow autoEvaluate="0" addressText="0x20012868" numColumns="8" sizeText="8" dataSize="1" radix="16" name="autoquad" addressSpace="" />
+ </Memory1>
+ <Memory2>
+  <MemoryWindow autoEvaluate="0" addressText="" numColumns="8" sizeText="" dataSize="1" radix="16" name="autoquad" addressSpace="" />
+ </Memory2>
+ <Memory3>
+  <MemoryWindow autoEvaluate="0" addressText="" numColumns="8" sizeText="" dataSize="1" radix="16" name="autoquad" addressSpace="" />
+ </Memory3>
+ <Memory4>
+  <MemoryWindow autoEvaluate="0" addressText="" numColumns="8" sizeText="" dataSize="1" radix="16" name="autoquad" addressSpace="" />
+ </Memory4>
+ <Project>
+  <ProjectSessionItem path="autoquad" name="unnamed" />
+  <ProjectSessionItem path="autoquad;autoquad" name="unnamed" />
+  <ProjectSessionItem path="autoquad;autoquad;Source Files" name="unnamed" />
+  <ProjectSessionItem path="autoquad;autoquad;Source Files;CAN" name="unnamed" />
+ </Project>
+ <Register1>
+  <RegisterWindow openNodes="CPU - Current Context;CPU" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU - Current Context;CPU" decimalNodes="" octalNodes="" asciiNodes="" name="autoquad" />
+ </Register1>
+ <Register2>
+  <RegisterWindow openNodes="CPU - Current Context" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU - Current Context;CPU" decimalNodes="" octalNodes="" asciiNodes="" name="autoquad" />
+ </Register2>
+ <Register3>
+  <RegisterWindow openNodes="CPU - Current Context" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU - Current Context;CPU" decimalNodes="" octalNodes="" asciiNodes="" name="autoquad" />
+ </Register3>
+ <Register4>
+  <RegisterWindow openNodes="CPU - Current Context" binaryNodes="" hiddenNodes="" unsignedNodes="" visibleGroups="CPU - Current Context;CPU" decimalNodes="" octalNodes="" asciiNodes="" name="autoquad" />
+ </Register4>
+ <TargetWindow programAction="" uploadFileType="" programLoadAddress="" programSize="" uploadFileName="" uploadMemoryInterface="" programFileName="" uploadStartAddress="" programFileType="" uploadSize="" programMemoryInterface="" />
+ <TraceWindow>
+  <Trace enabled="Yes" />
+ </TraceWindow>
+ <Watch1>
+  <Watches active="1" update="Twice a Second" >
+   <Watchpoint linenumber="400" radix="2" name="result" expression="result" filename="/home/exchizz/SDU/Skole/Bachelor/firmware/onboard/can.c" />
+  </Watches>
+ </Watch1>
+ <Watch2>
+  <Watches active="0" update="Never" />
+ </Watch2>
+ <Watch3>
+  <Watches active="0" update="Never" />
+ </Watch3>
+ <Watch4>
+  <Watches active="0" update="Never" />
+ </Watch4>
+ <Files>
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/run.c" y="114" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/run.c" left="0" selected="0" name="unnamed" top="159" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/aq.h" y="31" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/aq.h" left="0" selected="0" name="unnamed" top="29" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="15" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.c" y="384" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.c" left="0" selected="0" name="unnamed" top="389" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="100" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" y="115" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" left="0" selected="1" name="unnamed" top="102" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.h" y="44" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.h" left="0" selected="0" name="unnamed" top="34" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/ublox.c" y="372" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/ublox.c" left="0" selected="0" name="unnamed" top="362" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/main_ctl.c" y="80" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/main_ctl.c" left="0" selected="0" name="unnamed" top="71" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/algebra.c" y="106" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/algebra.c" left="0" selected="0" name="unnamed" top="103" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.h" y="76" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.h" left="0" selected="0" name="unnamed" top="57" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/.rowley_associates_limited/CrossWorks for ARM/packages/targets/STM32/STM32_Startup.s" y="166" path="/home/exchizz/.rowley_associates_limited/CrossWorks for ARM/packages/targets/STM32/STM32_Startup.s" left="0" selected="0" name="unnamed" top="157" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.h" y="36" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.h" left="0" selected="0" name="unnamed" top="30" />
+ </Files>
+ <ARMCrossStudioWindow activeProject="autoquad" autoConnectTarget="ARM Simulator" debugSearchFileMap="" fileDialogInitialDirectory="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware" fileDialogDefaultFilter="*.a" autoConnectCapabilities="268735" debugSearchPath="" buildConfiguration="THUMB Release" />
+</session>
