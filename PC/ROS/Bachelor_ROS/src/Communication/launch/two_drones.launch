@@ -1,0 +1,12 @@
+<launch>
+        <node pkg ="Communication" type="wifi_node" name="topic_in_udp_out_drone1" output="screen">
+                <param name="ip" value ="192.168.0.16" />
+                <param name="port" value="8888" />
+                <param name="topic_sub" value="/drone_id" /> 
+        </node>
+        <node pkg ="Communication" type="wifi_node" name="topic_in_udp_out_drone2" output="screen">
+                <param name="ip" value ="192.168.0.15" />
+                <param name="port" value="8888" />
+                <param name="topic_sub" value="/drone_id" /> 
+        </node>
+</launch>

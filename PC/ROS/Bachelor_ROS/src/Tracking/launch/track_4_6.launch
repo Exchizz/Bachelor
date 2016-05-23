@@ -1,0 +1,12 @@
+<launch>
+	<node pkg="markerLocator" name = "cam_to_topic" type="cam_to_topic.py" output="screen"  >
+		<param name="device" value = "/home/exchizz/SDU/Skole/Bachelor/PC/ROS/src/Bachelor_ROS/Tracking/markerLocator/src/my_video-10.mkv" />
+	</node>
+	<node pkg="markerLocator" name = "Track4" type="MarkerLocator_node.py" output="screen"  >
+		<param name="toFind" value="4" />
+	</node>
+	<node pkg="markerLocator" name = "Track6" type="MarkerLocator_node.py" output="screen"  >
+		<param name="toFind" value="6" />
+	</node>
+</launch>
+
