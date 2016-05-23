@@ -13,6 +13,7 @@
 \newcommand{\dif}{\mbox{$\mathrm{d}$}}
 \newcommand{\ohm}{\mbox{$\Omega$}}
 
+
 % ------------- Figures & Tables -------------- %
 \usepackage{booktabs}
 \usepackage{graphicx}
@@ -89,6 +90,7 @@
 \headsep = 24pt % spacing between header and text
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{wrapfig}
 \usepackage{paralist}
 \fancyhf{}
 \fancyhead[LE]{\slshape \rightmark} % section
@@ -128,6 +130,7 @@
 \usepackage{blindtext} %Lorem Ipsum replica
 
 % -------- Table of Contents --------- %
+\usepackage{multicol}
 \usepackage[titles]{tocloft}
 \usepackage[toc,page]{appendix}
 \setlength{\cftbeforesecskip}{0pt}
@@ -185,7 +188,7 @@
     pdfborder = { 0 0 0 }
 }
 \def\UrlFont{}
-
+\usepackage{cleveref}
 %\usepackage[numbers, square, comma, sort&compress]{natbib}
 
 \usepackage[
@@ -205,7 +208,7 @@
 \newpage
 
 
-\input{titelpage}
+%\input{titelpage}
 
 
 

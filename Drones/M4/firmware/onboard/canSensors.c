@@ -98,7 +98,7 @@ void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
         break;
         case CAN_DOC_ALT:
           gpsData.height = data_double;
-          if(gpsData.fix == 1){
+          //if(gpsData.fix == 1){
             if(gpsData.hDOP < 3){
                 if(gpsData.satellites >= 5){
                   //AQ_PRINTF("Recv. Valid GPGGA\n", 0);
@@ -112,9 +112,9 @@ void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
             } else {
               AQ_PRINTF("hDOP: %f\n", (double)gpsData.hDOP);
              }
-          } else {
-            AQ_PRINTF("Fix: %f\n", gpsData.fix);
-          }     
+          //} else {
+          //  AQ_PRINTF("Fix: %f\n", gpsData.fix);
+          //}     
         break;
       } // End switch
      }  // End switch-check
