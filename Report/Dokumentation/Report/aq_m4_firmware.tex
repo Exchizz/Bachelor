@@ -1,0 +1,76 @@
+\textbf{AutoQuad} is the flight controller used in this project. The author was among the first students using AutoQuad on SDU, but the first student to make changes to the firmware and to communicate with AQ using CAN-bus. The AutoQuad firmware was not documented at all, so much time was spend reading through code and trying to figure out how it works. A great amount of time was also spend on more practical things like getting to know their Development Environment (CrossWorks for ARM)\footnote{http://www.rowley.co.uk/arm/} in order to compile their firmware, waiting for Quatos\footnote{The controller, Quatos,  used in AutoQuad is not Open Source so a license had to be bought by SDU} license and getting familiar with the flashing process of AutoQuad.\\
+Much of the gained knowledge about AutoQuad and how to do debugging has been written down to share with other students. It can be found on the USB-key handed in \textit{Appendix/SDU-UASAutoQuaddocumentation.pdf and SDU-UASAutoQuadsourcecodedocumentation.pdf}. Text marked with green is written by the author.
+
+
+\textit{Since AutoQuad only supports proving GPS coordinates through a serial port\footnote{Seen by inspection of the schematic to the M4-board done by the supervisor} another way had to be found and implemented.
+Sending GPS coordinates through the serial port would require the onboard GPS to be unmounted which seems like a bad solution. The CAN bus was chosen since it is already implemented in AutoQuad. However AutoQuad supports sensor inputs through CAN, GPS was not supported and there by had to be implemented.}
+
+In order to send GPS coordinates to AQ a way in had to be found. A solution would be to unmount the onboard GPS, however that removes the functionality of the M4 board to fly normally without external hardware eg. A RPI. Since AutoQuad gets its coordinates from the onboard ublox M8Q \footnote{\url{http://autoquad.org/wiki/wiki/m4-microcontroller/m4-gps-antenna-options/}} using ublox's ubx protocol, everything sent by eg. a RPI had to be encoded as ubx.
+Instead of making hardware changes to the M4 it was decided to use the already supported CAN-bus interface. The M4 board already uses the CAN-bus to send velocities to each of the ESC's on an EduQuad drone. AutoQuad default supports sending some sensor values using the CAN-bus, however GPS coordinates, DOPs and accuracies was not implemented. The only implementation was to receive the battery voltage and current usage and log it to an MicroSD-card.
+AutoQuads CAN protocol is described, implemented and tested in section \ref{sec:somewhere}.
+
+When all CAN-nodes has successfully registered, different node-initializing functions run.
+First a summary run which sends the number and types of the nodes to QGroundStation. \footnote{Graphical userinterface which provices generel information about the drone such as battery, attitude but also waypoint functionalities}.
+It can thus be validated by the pilot that all the ESC's and CAN-sensors are detected.
+After the summary, a CAN-sensor initialization happens. The initialization of each CAN-sensor happens which is to send CAN\_CMD\_TELEM\_* described in section \ref{sec:somewhere} but more important also to create a callback.
+The callback will then be attached to the CAN-type which in this case is CAN-sensor\footnote{CAN-types are described in section \ref{sec:somewhere}} so when AutoQuad receives a sensor reading the callback will be invoked.\\
+
+Default the callback fills in the sensorvalue in an array so the sensor value can be used in another task. The canID \footnote{Described in section \ref{sec:somewhere}} is then used as index so the task needing the sensorvalue knows where to look since it knows which sensorsvalue it needs. Code \ref{code:callback} shows the callback\footnote{\url{https://github.com/bn999/autoquad/blob/master/onboard/canSensors.c}}
+\begin{lstlisting}[language = c, caption = Callback invoked when a CAN-sensorvalue is received. It stores the value in an array indexed by canId, label=code:callback]
+void canSensorsReceiveTelem(uint8_t canId, uint8_t doc, void *data) {
+    canSensorsData.values[canId] = *(float *)data;
+
+	/* Reception time of the message stored as well */
+}
+\end{lstlisting}
+The callback is fairly simple and does not save the doc\footnote{Described in section \ref{sec:somewhere}} which is needed in order to tell which value the CAN-GPS sensor is sending.\\
+
+All of the CAN-GPS packet handling has been implemented in the callback function. A prettier solution might have been to create a task and use a semaphore to signal when there is a new GPS-packet available. Due to lack of time implementing everything was done in the callback.
+
+Code \ref{code:psudo_parse_can_gps} shows a pseudo code of how the GPS-packets is handled. In section \ref{sec:somewhere} the CAN-GPS packets can be seen.
+
+\begin{lstlisting}[language = Matlab, caption = Modified callback invoked when a sensor-value is received. Shows how doc is used to tell which GPS\-packet is received and when height is received the flags are set, label=code:psudo_parse_can_gps]
+canSensorsReceiveTelem(canId, doc, *data) {
+	if doc == CAN_DOC_LAT then
+		canData.latitude = data
+		
+	if doc == CAN_DOC_LON then
+		canData.longitude = data
+		
+	if doc == CAN_DOC_DOP then
+		canData.xDOP = data[x]
+		..
+	if doc == CAN_DOC_ACC then
+		canData.satellites = data[0]
+		canData.fix = data[1]
+		canData.xAcc = data[x]
+		..
+		canData.heading = data[n-1]
+		
+	if doc == CAN_DOC_VEL then
+		gpsData.velx = data[x]
+		..		
+	if doc == CAN_DOC_ALT then
+		gpsDatat.height = data
+		if gpsData.fix == 1 and gpsData.satellites >= 8 then
+			gpsUpdatetime = now()
+			setFlag (gpsData.gpsPosFlag)
+			setFlag (gpsData.gpsVelFlag)
+		else:
+			debug_to_QGroundStation
+}
+\end{lstlisting}
+
+The \textit{data} pointer given as parameter to the callback is of void pointer. Some pointer gymnastics is done in order to get the right elements from the CAN-packet. If the received CAN-packet is of 8*1 bytes, the void pointer is casted to an uint8\_t pointer so each byte can be retrieved by using the casted pointer as an array. \\
+
+When the flags are set, the task updating the UKF will run \footnote{\url{https://github.com/bn999/autoquad/blob/master/onboard/run.c\#L110} last visited 23 maj}.
+Code \ref{code:ukf_update} shows a snippet from the task updating the UKF when the position or velocity flag is set.
+\begin{lstlisting}[language = Matlab, caption = Snippet of run.c as psudeocode which updates the UKF when position flag or velocity flag is set, label=code:ukf_update]
+if IsFlagSet(gpsData.gpsPosFlag) == yes then
+	    navUkfGpsPosUpdate(gpsData.lastPosUpdate, gpsData.lat, gpsData.lon, gpsData.height, ....);
+	    ClearFlag(gpsData.gpsPosFlag);
+	    
+else if IsFlagSet(gpsData.gpsVelFlag) == yes then
+	    navUkfGpsVelUpdate(gpsData.lastVelUpdate, gpsData.velN, gpsData.velE, ....);
+	    ClearFlag(gpsData.gpsVelFlag);
+\end{lstlisting}

@@ -1,0 +1,13 @@
+\begin{table}[H]
+\centering
+
+\begin{tabularx}{0.75\textwidth}{@{}|X|X|X|X|X|X|@{}}
+\toprule
+Content & Lat    & Lon    & Height & DOP   & CRC-16  \\ \midrule
+Datatype    & double & double & float  & float & uint16\_t \\ \midrule
+Bytes    & 31:24  & 23:16   & 15:8    & 7:4 & 3:0 \\ \bottomrule
+\end{tabularx}
+\Mathias{Ændre 0:3 til 0:1 da en uint16\_t kun tager 2 bytes og ikke 4}
+\caption{Message sent from PC to ESP8266}
+\label{my-label}
+\end{table}

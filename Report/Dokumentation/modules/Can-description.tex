@@ -1,0 +1,40 @@
+\begin{table}[H]
+\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline
+	\multicolumn{8}{|c|}{CAN Message} \\ 
+	\hline
+	 \multicolumn{7}{|c|}{Identfier bits [29 bits]} &  		\multicolumn{1}{c|}{Data bits [max 64 bits]} \\
+	 \hline
+	 LCC [28:27] & TT [26] & FID [25:22] & DOC [21:16] & SOID 	[15:11] & TID [10:16] & SEID [5:0] & \\
+	\hline
+\end{tabular}}
+	\caption{Table shows the identifier bits used in AutoQuad CAN messages}
+	\label{tab:can_identifier_bits}
+\end{table}
+
+In figure \ref{tab:abbri_can_msg} the abbreviations can be seen.
+\begin{table}[H]
+		\begin{tabular}{|l|l|}
+		\hline
+		LCC & Logical Communications Channe \\
+\hline
+		TT & Target Type \\
+\hline
+		FID & Function ID \\
+\hline
+		DOC & Data Object Code \\
+\hline
+		SOID & Source ID \\
+\hline
+		TID & Target ID \\
+\hline
+		SEID & Sequence ID \\
+\hline
+		\end{tabular}
+		\caption{Table shows 
+abbreviations used in table \ref{tab:can_identifier_bits}}
+		\label{tab:abbri_can_msg}
+\end{table}
+
+Each of the elements in an AQ messages will be explained how they are used in AQ. \\

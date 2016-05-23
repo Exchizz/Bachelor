@@ -1,0 +1,38 @@
+This chapter concerns the most important parts about how this project has been implemented. It has been split into several sections.
+
+\Mathias{Write shortly about the implementation Chapter}
+\Mathias{Less calculations on the drone, better to move to another computer/cluster with more power than the drone has available from its battery}
+\Mathias{Image of camera and drone seen from the side. Show what happens to the drones position estimation when it drifts down/up}
+
+\section{CAN implementation}
+\input{can_implementation}
+  can0  00000000   [0] 
+  can0  01C00000   [8]  EF BE AD DE 03 09 00 00
+  can0  0E000041   [6]  EF BE AD DE 00 00
+  can0  14CD0042   [2]  00 08
+  can0  14CC0043   [2]  0A 00
+
+
+
+seq tæller op så rate/value bliver acknowledged
+  can0  00000000   [0] 
+  can0  01C00000   [8]  EF BE AD DE 03 09 00 00
+  can0  0E000041   [6]  EF BE AD DE 00 00
+  can0  14CD0042   [2]  00 08
+  can0  00400002   [8]  00 00 00 00 00 00 00 00
+  can0  14CC0043   [2]  0A 00
+  can0  00400003   [8]  00 00 00 00 00 00 00 00
+
+
+\section{Communication flow}
+\input{communication_flow}
+
+\section{Vision based localization}
+\input{vision_localization}
+\newpage
+
+\section{Software}
+\input{scheduler}
+\section{Hardware}
+\input{hardware}
+\newpage
