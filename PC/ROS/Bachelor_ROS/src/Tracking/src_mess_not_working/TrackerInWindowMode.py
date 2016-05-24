@@ -71,7 +71,7 @@ class TrackerInWindowMode:
         #print((xm, ym))
         
         #return [xm, ym, orientation, self.markerTracker.quality]
-        return MarkerPose(xm, ym, orientation, self.markerTracker.quality, self.markerTracker.order)        
+        return MarkerPose(xm, ym, orientation, self.markerTracker.quality, self.markerTracker.order, self.markerTracker.order_match)
         
     def showCroppedImage(self):
         pass

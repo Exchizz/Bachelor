@@ -32,7 +32,7 @@ class PerspectiveCorrecter:
         # location and a director. These two points are then perspective 
         # corrected and the transformed orientation can then be determined 
         # from the two points.
-        location = [pose.x, pose.y]      
+        location = [pose.x, pose.y]
         orientation = pose.theta
         dist = 10
         dx = dist * math.cos(orientation)
@@ -43,7 +43,7 @@ class PerspectiveCorrecter:
         dx = loc2[0] - loc1[0]
         dy = loc2[1] - loc1[1]
         orient = math.atan2(dy, dx)
-        return MarkerPose(loc1[0], loc1[1], orient, pose.quality, pose.order)
+        return MarkerPose(loc1[0], loc1[1], orient, pose.quality, pose.order, pose.order_match)
 
 def main():
     pointLocationsInImage = [[197, 136], [168, 403], [449, 169], [420, 347]]

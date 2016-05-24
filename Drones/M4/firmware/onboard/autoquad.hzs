@@ -1,7 +1,10 @@
 <!DOCTYPE CrossStudio_for_ARM_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints/>
+ <Breakpoints>
+  <BreakpointListItem line="67" action="" hardwareBreakpoint="" trigger="" useHWbreakpoint="false" group="Breakpoints" type="Breakpoint" state="4" counter="0" isFunctionBreakpoint="false" filename="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" expression="" />
+  <BreakpointListItem line="88" action="" hardwareBreakpoint="" trigger="" useHWbreakpoint="false" group="Breakpoints" type="Breakpoint" state="2" counter="0" isFunctionBreakpoint="false" filename="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" expression="" />
+ </Breakpoints>
  <ExecutionProfileWindow/>
  <Memory1>
   <MemoryWindow autoEvaluate="0" addressText="0x2001986c" numColumns="8" sizeText="8" dataSize="1" radix="16" name="autoquad" addressSpace="" />
@@ -50,14 +53,14 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.c" y="451" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.c" left="0" selected="0" name="unnamed" top="362" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="24" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" y="55" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" left="0" selected="1" name="unnamed" top="23" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/main_ctl.c" y="30" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/main_ctl.c" left="0" selected="0" name="unnamed" top="33" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.h" y="148" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.h" left="0" selected="0" name="unnamed" top="51" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.h" y="28" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.h" left="0" selected="0" name="unnamed" top="33" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.c" y="451" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.c" left="0" selected="0" name="unnamed" top="438" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" y="87" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.c" left="0" selected="0" name="unnamed" top="78" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/main_ctl.c" y="30" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/main_ctl.c" left="0" selected="1" name="unnamed" top="33" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.h" y="148" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/can.h" left="0" selected="0" name="unnamed" top="18" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.h" y="28" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/canSensors.h" left="0" selected="0" name="unnamed" top="18" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/ublox.c" y="371" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/ublox.c" left="0" selected="0" name="unnamed" top="360" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/run.c" y="51" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/run.c" left="0" selected="0" name="unnamed" top="42" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="23" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.h" y="52" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.h" left="0" selected="0" name="unnamed" top="32" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/run.c" y="51" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/run.c" left="0" selected="0" name="unnamed" top="117" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.h" y="52" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.h" left="0" selected="0" name="unnamed" top="32" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Latin1" x="0" debugPath="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.c" y="35" path="/home/exchizz/SDU/Skole/Bachelor/Drones/M4/firmware/onboard/gps.c" left="0" selected="0" name="unnamed" top="42" />
  </Files>
  <ARMCrossStudioWindow activeProject="autoquad" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="" fileDialogDefaultFilter="*.c" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Release" />

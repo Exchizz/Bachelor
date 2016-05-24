@@ -102,13 +102,14 @@ class CameraDriver:
 #            if(self.oldLocations[k].x is None or self.oldLocations[k].quality < 0.4 and self.oldLocations[k].quality != 0 ):
             if self.oldLocations[k].x is None  or self.oldLocations[k].quality < 0.3:
                 # Previous marker location is unknown, search in the entire image.
-		print "Lost track of marker, searching entire image"
+#		print "Lost track of marker, searching entire image"
                 self.processedFrame = self.trackers[k].analyzeImage(self.currentFrame)
                 markerX = self.trackers[k].markerLocationsX[0]
                 markerY = self.trackers[k].markerLocationsY[0]
                 order = self.trackers[k].markerTrackers[0].order
 		quality = self.trackers[k].markerTrackers[0].quality
-                self.oldLocations[k] = MarkerPose(markerX, markerY, self.defaultOrientation, quality, order)
+		order_match = self.trackers[k].markerTrackers[0].order_match
+                self.oldLocations[k] = MarkerPose(markerX, markerY, self.defaultOrientation, quality, order, order_match)
             else:
                 # Search for marker around the old location.
                 self.windowedTrackers[k].cropFrame(self.currentFrame, self.oldLocations[k].x, self.oldLocations[k].y)
@@ -188,8 +189,13 @@ class ROS:
 	self.cd = CameraDriver(self.toFind, defaultKernelSize = 25)
      
 
-	pointLocationsInImage = [[1328, 340], [874, 346], [856, 756], [1300, 762]]
-	realCoordinates = [[0, 0], [300, 0], [300, 250], [0, 250]]
+#	pointLocationsInImage = [[1328, 340], [874, 346], [856, 756], [1300, 762]]
+#	realCoordinates = [[0, 0], [300, 0], [300, 250], [0, 250]]
+	pointLocationsInImage = [[952, 533], [946, 3], [1668, 3], [1667, 527]]
+#	pointLocationsInImage =  [[1668, 3], [1667, 527], [952, 533], [946, 3]]
+	realCoordinates = [[0, 0], [0, 109], [150.1, 109], [150.1, 0]]
+	
+
 	self.perspectiveConverter = PerspectiveCorrecter(pointLocationsInImage, realCoordinates)
 
 #    while cd.running:
@@ -214,16 +220,20 @@ class ROS:
         self.cd.handleKeyboardEvents()
 	y = self.cd.returnPositions() 
 	self.publishMarkerLocations(y)
-	img = numpy.asarray(self.cd.processedFrame[:,:]) 
+	img = numpy.asarray(self.cd.processedFrame[:,:])
 	self.publishImage(img)
 
 
     def publishMarkerLocations(self, locations):
-	pkt = self.perspectiveConverter.convert(px_pkt)
+#	pkt = self.perspectiveConverter.convert(px_pkt)
 
-	print("x: %8.7f y: %8.7f angle: %8.7f quality: %8.7f order: %s" % (locations[0].x, locations[0].y, locations[0].theta, locations[0].quality, locations[0].order))
-	pose = locations[0]
-        self.pub.publish(  DronePose( pose.x, pose.y, pose.theta, pose.quality, pose.order_match )  )
+#	print "before homography:", locations[0].x, locations[0].y
+	x,y = self.perspectiveConverter.convert( (locations[0].x, locations[0].y) )
+
+#	print "after homography:", x, y
+#	print x,y
+#	print("x: %8.7f y: %8.7f angle: %8.7f quality: %8.7f order: %s lock: %d" % (x, y, locations[0].theta, locations[0].quality, locations[0].order, locations[0].order_match))
+        self.pub.publish(  DronePose( x, y, locations[0].theta, locations[0].quality, locations[0].order_match )  )
 
     def publishImage(self, Image):
         try:

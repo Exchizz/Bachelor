@@ -21,6 +21,7 @@ class MarkerTracker:
 
         (kernelReal, kernelImag) = self.generateSymmetryDetectorKernel(order, kernelSize)
         self.order = order
+	self.order_match = False
         self.matReal = cv.CreateMat(kernelSize, kernelSize, cv.CV_32FC1)
         self.matImag = cv.CreateMat(kernelSize, kernelSize, cv.CV_32FC1)
         for i in range(kernelSize):
@@ -132,11 +133,13 @@ class MarkerTracker:
 
 			if xm2 > w:
 				xm2 = w-1
+		try:
+			intensity = img_small[ym2, xm2]
 
-		intensity = img_small[ym2, xm2]
-
-		if intensity < 100:
-			detectedOrder +=1
+			if intensity < 100:
+				detectedOrder +=1
+		except:
+			pass
 #			img_small[ym2-1, xm2-1] = 128
 #			img_small[ym2, xm2] = 128
 #			img_small[ym2+1, xm2+1] = 128
@@ -210,6 +213,8 @@ class MarkerTracker:
 			if self.order != determinedOrder:
 				print "Wrong order ", self.order, determinedOrder
 				self.quality = 0.0
+			else:
+				self.order_match = True
 		else:
 			print "\t quality: ", self.quality
 

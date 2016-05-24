@@ -21,6 +21,21 @@ class WIFI {
 		int ret;
 		struct sockaddr_in addr;
 		crc_t crc;
+
+/*
+		uint8_t hDOP = 1.5;
+		uint8_t vDOP = 1.5*hDOP*10;
+		uint8_t tDOP = 1.5*hDOP*10;
+		uint8_t nDOP = 0.7*hDOP*10;
+		uint8_t eDOP = 0.7*hDOP*10;
+*/
+
+//		uint8_t hDOP = 11;
+		uint8_t vDOP = 35;
+		uint8_t tDOP = 27;
+		uint8_t nDOP = 27;
+		uint8_t eDOP = 27;
+
 	public:
 		WIFI(std::string ip, int port){
 			addr.sin_family = AF_INET;
@@ -61,10 +76,20 @@ class WIFI {
 				data[i] = temp[(i-16)];
 			}
 
-			memcpy(temp, &dop, 8);
-			for(; i < 32; i++){
-				data[i] = temp[(i-24)];
-			}
+//			memcpy(temp, &dop, 8);
+//			for(; i < 32; i++){
+//				data[i] = temp[(i-24)];
+//			}
+
+			data[i++] = vDOP;
+			data[i++] = tDOP;
+			data[i++] = nDOP;
+			data[i++] = eDOP;
+
+			data[i++] = 0;
+			data[i++] = 0;
+			data[i++] = 0;
+			data[i++] = 0;
 
 			crc = crc_init();
 			crc = crc_update(crc, data, 32);

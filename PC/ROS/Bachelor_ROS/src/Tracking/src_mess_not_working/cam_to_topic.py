@@ -39,7 +39,7 @@ if __name__ == '__main__':
 	cap.set(4,1080);
 
 	topic_camera = rospy.get_param( '~camera_out' , "/camera/stream")
-	image_pub = rospy.Publisher(topic_camera, Image, queue_size=100)
+	image_pub = rospy.Publisher(topic_camera, Image, queue_size=1)
 	bridge = CvBridge()
 
 #	raw_input("Press Enter to start playing...")

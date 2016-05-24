@@ -6,7 +6,7 @@ Created on Tue May 13 19:38:43 2014
 """
 
 class MarkerPose:
-    def __init__(self, x, y, theta, quality, order = None, order_match = None):
+    def __init__(self, x, y, theta, quality, order = None, order_match = -1):
         self.x = x
         self.y = y
         self.theta = theta
